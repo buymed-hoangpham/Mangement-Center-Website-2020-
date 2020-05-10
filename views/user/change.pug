@@ -1,0 +1,21 @@
+extends ../layouts/common
+block content
+    h1 Đổi mật khẩu
+    if errors
+        .alert.alert-danger=errors
+    if success
+        .alert.alert-success=success
+    form.form.container-fluid(method="post", action="/user/change")
+        .form-group.row
+            label.col-2(for="password") Mật khẩu hiện tại: 
+            .col-10
+                input.form-control#password(type="password", name="password", placeholder="Nhập mật khẩu hiện tại...", required)
+        .form-group.row
+            label.col-2(for="newPassword") Mật khẩu mới: 
+            .col-10
+                input.form-control#newPassword(type="password", name="newPassword", placeholder="Nhập mật khẩu mới...", required)
+        .form-group.row
+            label.col-2(for="retypenewPassword") Nhập lại mật khẩu mới: 
+            .col-10
+                input.form-control#retypenewPassword(type="password", name="retypenewPassword", placeholder="Nhập lại mật khẩu mới...", required)
+                button.btn.btn-primary.my-2 Đổi mật khẩu

@@ -20,3 +20,20 @@ html, body {
     height: 100%;
 }
 
+/* Nav */
+.nav__avatar {
+    background: url('https://res.cloudinary.com/hoapha1009/image/upload/v1589016908/management-center/anhdaidien_bnihlx.jpg') no-repeat;
+    background-size: cover;
+    width: 40px;
+    height: 40px;
+}
+
+#menu-toggle {
+    border: 0;
+}
+
+#menu-toggle:hover {
+    background: #343A40;
+    color: #A5C4CF
+}
+

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
 
-router.get('/change', userController.change);
-router.post('/change', userController.postChange);
+router.get('/', userController.change);
+router.post('/', userController.postChange);
 
 module.exports = router;

@@ -15,6 +15,8 @@ mongoose.connect(process.env.URI, {
 const mainRouter = require('./routes/main.route');
 const authRouter = require('./routes/auth.route');
 
+const requireAuthMiddleware = require('./middlewares/auth.middleware');
+
 app.set('view engine', 'pug');
 app.set('views', './views');
 app.use(bodyParser.json());
@@ -24,8 +26,8 @@ app.use(express.static('public'));
 app.use(express.static('files'));
 app.use(cookieParser(process.env.SESSION_SECRET));
 
-app.use('/', mainRouter);
-app.use('/login', authRouter);
+app.use('/auth', authRouter);
+app.use('/', requireAuthMiddleware, mainRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server listening on port " + process.env.PORT);

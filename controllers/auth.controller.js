@@ -1,9 +1,10 @@
 const User = require('../models/user.model');
 const sgMail = require('@sendgrid/mail');
+const shortid = require('shortid');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports.login = (req, res) => {
-    res.render('./login');
+    res.render('./auth/login');
 };
 
 module.exports.postLogin = async (req, res) => {
@@ -35,7 +36,7 @@ module.exports.postLogin = async (req, res) => {
     }
     
     if(Object.keys(errors).length) {
-        res.render('./login', {
+        res.render('./auth/login', {
             errors: errors
         });
         return;
@@ -46,7 +47,44 @@ module.exports.postLogin = async (req, res) => {
     res.cookie('userId', user.id, {
         signed: true
     });
-    res.locals.username = user.username;
 
-    res.render('./index');
+    res.redirect('/');
 };
+
+module.exports.logout = (req, res) => {
+    res.clearCookie('userId');
+    res.redirect('/auth/login');
+};
+
+module.exports.reset = (req, res) => {
+    res.render('./auth/reset');
+};
+
+module.exports.postReset = async (req, res) => {
+    let email = req.body.email;
+    let user = await User.findOne({ email: email });
+    
+    if(!user) {
+        let error = 'Email không tồn tại!';
+        res.render('./auth/reset', {
+            error: error
+        })
+        return;
+    }
+    
+    let newPassword = shortid.generate();
+    const msg = {
+        to: user.email,
+        from: 'hoapha1009@gmail.com',
+        subject: 'Đặt lại mật khẩu',
+        text: 'Xin chào! Mật khẩu mới của bạn là: ' + newPassword
+    };
+    sgMail.send(msg);
+    user.password = newPassword;
+    user.save();
+
+    let succeed = 'Mật khẩu mới đã được gửi đến email của bạn!';
+    res.render('./auth/reset', {
+        succeed: succeed
+    });
+}

@@ -2,20 +2,29 @@ extends ../layouts/common
 block content
     .container-fluid
         .row.d-flex.justify-content-between.align-items-center
-            .col-6
+            .col-10
                 h1 Danh sách lớp
-            .col-6
-                a.d-block.text-right.mr-4.btn.btn-primary(href="", style="font-size: 26px") Tạo lớp mới
+            .col-2
+                a.d-block.mr-4.btn.btn-info.p-1.text-center(href="/class/create", style="font-size: 20px") Tạo lớp mới
         .row 
-            table.table
-                thead
-                    th STT
-                    th ID
-                    th Tên lớp
-                    th
-                    th
-                tbody
-                    tr 
-                        td
-                    tr 
-                    tr
+            .table-responsive
+                table.table.table-hover
+                    thead.thead-light.text-center
+                        th STT
+                        th.text-left ID
+                        th.text-left Tên lớp
+                        th Sĩ số
+                        th
+                        th
+                    tbody.text-center
+                        each oneclass in classes
+                            tr
+                                td.text-center.align-middle=++count
+                                td.text-left.align-middle(style="width: 280px")=oneclass.id
+                                td.text-left.align-middle=oneclass.classname
+                                td.align-middle=oneclass.number
+                                td(style="width: 100px")
+                                    a.btn.btn-outline-primary Xem
+                                td(style="width: 100px")
+                                    a.btn.btn-outline-danger(href=`/class/delete/${oneclass.id}`) Xóa
+

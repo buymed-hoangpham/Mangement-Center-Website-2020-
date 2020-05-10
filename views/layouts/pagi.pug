@@ -1,0 +1,45 @@
+if(pageSize > 2)
+    nav(aria-label='Page navigation example')
+        ul.pagination.justify-content-center
+            li.page-item
+                a.page-link(href=`/${titleLink}?page=1`, aria-label='First')
+                    span(aria-hidden='true', style="color: #0056B5") &laquo;
+            if(currentPage == 1)
+                li.page-item
+                    a.page-link(href=`/${titleLink}?page=1`) 1
+                li.page-item
+                    a.page-link(href=`/${titleLink}?page=2`) 2
+                li.page-item
+                    a.page-link(href=`/${titleLink}?page=3`) 3
+            else
+                if(currentPage < pageSize)
+                    li.page-item
+                        a.page-link(href=`/${titleLink}?page=${currentPage-1}`)=currentPage-1
+                    li.page-item
+                        a.page-link(href=`/${titleLink}?page=${currentPage}`)=currentPage
+                    li.page-item
+                        a.page-link(href=`/${titleLink}?page=${currentPage+1}`)=currentPage+1
+                else
+                    li.page-item
+                        a.page-link(href=`/${titleLink}?page=${pageSize-2}`)=pageSize-2
+                    li.page-item
+                        a.page-link(href=`/${titleLink}?page=${pageSize-1}`)=pageSize-1
+                    li.page-item
+                        a.page-link(href=`/${titleLink}?page=${pageSize}`)=pageSize   
+            li.page-item
+                a.page-link(href=`/${titleLink}?page=${pageSize}`, aria-label='Last')
+                    span(aria-hidden='true', style="color: #0056B5") &raquo;
+if(pageSize == 1 || pageSize == 2)
+    nav(aria-label='Page navigation example')
+        ul.pagination.justify-content-center
+            li.page-item
+                a.page-link(href=`/${titleLink}?page=1`, aria-label='First')
+                    span(aria-hidden='true', style="color: #0056B5") &laquo;
+            li.page-item
+                a.page-link(href=`/${titleLink}?page=1`) 1
+            li.page-item
+                a.page-link(href=`/${titleLink}?page=2`) 2
+            li.page-item
+                a.page-link(href=`/${titleLink}?page=${pageSize}`, aria-label='Last')
+                    span(aria-hidden='true', style="color: #0056B5") &raquo;
+    

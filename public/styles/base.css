@@ -47,3 +47,12 @@ html, body {
     color: var(--white-color);
     margin-right: 5px;
 }
+
+/* Content */
+    /* table  */
+
+td, th {
+    max-width: 120px;
+    overflow-wrap: break-word; 
+    word-wrap: break-word;
+}

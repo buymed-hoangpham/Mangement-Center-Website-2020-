@@ -1,0 +1,51 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        h1 Thêm giáo viên mới:
+        if error
+            .alert.alert-danger=error
+        if success
+            .alert.alert-success=success
+        form.form.container-fluid(method="post", action="/teacher/create", enctype="multipart/form-data")
+            .form-group.row
+                label.col-2(for="teachername") Họ tên giáo viên: 
+                .col-10
+                    input.form-control#teachername(type="text", name="teachername", placeholder="Nhập họ tên giáo viên...", required)
+            .form-group.row      
+                .col-2 
+                    label(for="teachername") Giới tính: 
+                .col-10
+                    .form-check-inline
+                        input#male.form-check-input(type='radio', name='gender', value='false', checked='')
+                        label.form-check-label(for='male') Nam
+                    .form-check-inline
+                        input#female.form-check-input(type='radio', name='gender', value='true')
+                        label.form-check-label(for='female') Nữ
+            .form-group.row
+                label.col-2(for="birthday") Ngày sinh: 
+                .col-10
+                    input.form-control#birthday(type="date", name="birthday", required)
+            .form-group.row
+                label.col-2(for="phone") Số điện thoại: 
+                .col-10
+                    input.form-control#phone(type="text", name="phone", placeholder="Nhập số điện thoại...", required)
+            .form-group.row
+                label.col-2(for="address") Địa chỉ: 
+                .col-10
+                    input.form-control#address(type="text", name="address", placeholder="Nhập địa chỉ...", required)
+            .form-group.row
+                label.col-2(for='class') Lớp học: 
+                .col-10
+                    select#class.form-control(name="class")
+                        each oneclass in classes
+                            option(value=oneclass.id)= oneclass.classname
+            .form-group.row
+                label.col-2(for="avatar") Ảnh: 
+                .col-10
+                    input#avatar(type="file", name="avatar")
+            .row
+                .col-4
+                .col-6
+                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px") Thêm
+                    a.btn.btn-secondary.btn-lg(href="/teacher") Quay lại
+

@@ -25,7 +25,7 @@ block content
                         each oneteacher in teachers
                             tr
                                 td.text-center.align-middle= ++count
-                                td
+                                td.align-middle
                                     if !oneteacher.avatar
                                         img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
                                     else
@@ -39,11 +39,13 @@ block content
                                 td.align-middle= moment(oneteacher.birthday).format('DD-MM-YYYY')
                                 td.align-middle= oneteacher.phone
                                 td.align-middle= oneteacher.address
-                                td.align-middle= oneteacher.classId
-                                td(style="width: 100px")
-                                    a.btn.btn-outline-primary Xem
-                                td(style="width: 100px")
-                                    a.btn.btn-outline-danger(href=`/class/delete/${oneteacher.id}`) Xóa
+                                each oneclass in classes
+                                    if(oneteacher.classId == oneclass.id)
+                                        td.align-middle= oneclass.classname
+                                td.align-middle(style="width: 100px")
+                                    a.btn.btn-outline-primary(href=`/teacher/view/${oneteacher.id}`) Xem
+                                td.align-middle(style="width: 100px")
+                                    a.btn.btn-outline-danger(href=`/teacher/delete/${oneteacher.id}`) Xóa
 
 
 

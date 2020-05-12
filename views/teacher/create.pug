@@ -13,14 +13,14 @@ block content
                     input.form-control#teachername(type="text", name="teachername", placeholder="Nhập họ tên giáo viên...", required)
             .form-group.row      
                 .col-2 
-                    label(for="teachername") Giới tính: 
+                    label(for="gender") Giới tính: 
                 .col-10
-                    .form-check-inline
-                        input#male.form-check-input(type='radio', name='gender', value='false', checked='')
-                        label.form-check-label(for='male') Nam
-                    .form-check-inline
-                        input#female.form-check-input(type='radio', name='gender', value='true')
-                        label.form-check-label(for='female') Nữ
+                    .custom-control.custom-radio.custom-control-inline
+                        input#male.custom-control-input(type='radio', name='gender', value='false', checked='')
+                        label.custom-control-label(for='male') Nam
+                    .custom-control.custom-radio.custom-control-inline
+                        input#female.custom-control-input(type='radio', name='gender', value='true')
+                        label.custom-control-label(for='female') Nữ
             .form-group.row
                 label.col-2(for="birthday") Ngày sinh: 
                 .col-10

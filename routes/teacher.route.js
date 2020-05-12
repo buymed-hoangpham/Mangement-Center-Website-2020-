@@ -8,6 +8,7 @@ router.get('/', teacherController.render);
 router.get('/delete/:id', teacherController.delete);
 router.get('/create', teacherController.create);
 router.post('/create', upload.single('avatar'), teacherController.postCreate);
-
+router.get('/view/:id', teacherController.view);
+router.post('/view', upload.single('avatar'), teacherController.postView);
 
 module.exports = router;

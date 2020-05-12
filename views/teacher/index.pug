@@ -1,0 +1,51 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        .row.d-flex.justify-content-between.align-items-center
+            .col-9.col-sm-9
+                h1 Danh sách giáo viên
+            .col-3.col-sm-3
+                a.d-block.mr-4.btn.btn-info.p-1.text-center(href="/teacher/create", style="font-size: 20px") Thêm giáo viên
+        .row 
+            .table-responsive
+                table.table.table-hover
+                    thead.thead-light.text-center
+                        th STT
+                        th Ảnh
+                        th.text-left ID
+                        th.text-left Họ tên giáo viên
+                        th Giới tính
+                        th Ngày sinh    
+                        th Số điện thoại
+                        th Địa chỉ
+                        th Lớp
+                        th
+                        th
+                    tbody.text-center
+                        each oneteacher in teachers
+                            tr
+                                td.text-center.align-middle= ++count
+                                td.align-middle
+                                    if !oneteacher.avatar
+                                        img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
+                                    else
+                                        img.rounded-circle(width="48px", src=oneteacher.avatar)
+                                td.text-left.align-middle= oneteacher.id
+                                td.text-left.align-middle= oneteacher.teachername
+                                if oneteacher.gender == true
+                                    td.align-middle Nữ
+                                else
+                                    td.align-middle Nam
+                                td.align-middle= moment(oneteacher.birthday).format('DD-MM-YYYY')
+                                td.align-middle= oneteacher.phone
+                                td.align-middle= oneteacher.address
+                                each oneclass in classes
+                                    if(oneteacher.classId == oneclass.id)
+                                        td.align-middle= oneclass.classname
+                                td.align-middle(style="width: 100px")
+                                    a.btn.btn-outline-primary(href=`/teacher/view/${oneteacher.id}`) Xem
+                                td.align-middle(style="width: 100px")
+                                    a.btn.btn-outline-danger(href=`/teacher/delete/${oneteacher.id}`) Xóa
+
+
+

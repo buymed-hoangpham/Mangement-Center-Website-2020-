@@ -1,32 +1,32 @@
 extends ../layouts/common
 block content
     .container-fluid
-        h1 Giáo viên:
+        h1 Học viên:
         if error
             .alert.alert-danger=error
         if success
             .alert.alert-success=success
-        form.form.container-fluid(method="post", action="/teacher/view", enctype="multipart/form-data")
+        form.form.container-fluid(method="post", action="/student/view", enctype="multipart/form-data")
             .form-row
                 .form-group.col-7.form
                     .form-group
-                        input.form-control(type="text", name="id", value= teacher.id, hidden)
-                        label(for="teachername") Họ tên giáo viên: 
-                        input.form-control#teachername(type="text", name="teachername", value= teacher.teachername)
+                        input.form-control(type="text", name="id", value= student.id, hidden)
+                        label(for="studentname") Họ tên học viên: 
+                        input.form-control#studentname(type="text", name="studentname", value= student.studentname)
                     .form-group
                         label(for='gender') Giới tính:
-                        if(teacher.gender == true)
+                        if(student.gender == true)
                             input#gender.form-control(type='text', name="gender", value="Nữ")
                         else
                             input#gender.form-control(type='text', name="gender", value="Nam") 
                     .form-group
                         label(for='birthday') Ngày sinh:
-                        input#birthday.form-control(type='date', name="birthday", value= moment(teacher.birthday).format('DD-MM-YYYY')) 
+                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY')) 
                 .form-group.col-5.form
                     .form-group.row
                         .col-3
                         .col-9
-                            img.rounded-circle(src=teacher.avatar, width="200px")
+                            img.rounded-circle(src=student.avatar, width="200px")
                     .form-group.row
                         .col-3
                             label.ml-3(for="avatar") Thay ảnh:
@@ -35,20 +35,24 @@ block content
             .form-row
                 .form-group.col-12
                     label(for="address") Địa chỉ: 
-                    input.form-control#address(type="text", name="address", value= teacher.address)
+                    textarea.form-control#phone(name="address", rows="3")= student.address
             .form-row
                 .form-group.col-6
                     label(for="phone") Số điện thoại: 
-                    input.form-control#phone(type="text", name="phone", value= teacher.phone)
+                    input.form-control#phone(type="text", name="phone", value= student.phone)
                 .form-group.col-6
-                    label(for='class') Dạy lớp: 
+                    label(for='email') Email: 
+                    input.form-control#email(type="text", name="email", value= student.email)
+            .form-row
+                .form-group.col-12
+                    label(for='class') Học lớp: 
                     select#class.form-control(name="class")
-                        option(value=teacher.classId, style="color: red")= classTeaching.classname
+                        option(value=student.classId, style="color: red")= classTeaching.classname
                         each oneclass in classes
                             option(value=oneclass.id)= oneclass.classname
             .form-row
                 .col-4
                 .col-6
                     button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px") Cập nhật
-                    a.btn.btn-secondary.btn-lg(href="/teacher") Quay lại
+                    a.btn.btn-secondary.btn-lg(href="/student") Quay lại
 

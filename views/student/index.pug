@@ -3,9 +3,9 @@ block content
     .container-fluid
         .row.d-flex.justify-content-between.align-items-center
             .col-9.col-sm-9
-                h1 Danh sách giáo viên
+                h1 Danh sách học viên
             .col-3.col-sm-3
-                a.d-block.mr-4.btn.btn-info.p-1.text-center(href="/teacher/create", style="font-size: 20px") Thêm giáo viên
+                a.d-block.mr-4.btn.btn-info.p-1.text-center(href="/student/create", style="font-size: 20px") Thêm học viên
         .row 
             .table-responsive
                 table.table.table-hover
@@ -16,36 +16,38 @@ block content
                         th.align-top.text-center Họ tên giáo viên
                         th.align-top Giới tính
                         th.align-top Ngày sinh    
-                        th.align-top Số điện th.align-topoại
+                        th.align-top Số điện thoại
+                        th.align-top Email
                         th.align-top Địa chỉ
                         th.align-top Lớp
                         th
                         th
                     tbody.text-center
-                        each oneteacher in teachers
+                        each student in students
                             tr
                                 td.text-center.align-middle= ++count
                                 td.align-middle
-                                    if !oneteacher.avatar
+                                    if !student.avatar
                                         img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
                                     else
-                                        img.rounded-circle(width="48px", src=oneteacher.avatar)
-                                td.text-left.align-middle= oneteacher.id
-                                td.text-left.align-middle= oneteacher.teachername
-                                if oneteacher.gender == true
+                                        img.rounded-circle(width="48px", src=student.avatar)
+                                td.text-left.align-middle= student.id
+                                td.text-left.align-middle= student.studentname
+                                if student.gender == true
                                     td.align-middle Nữ
                                 else
                                     td.align-middle Nam
-                                td.align-middle= moment(oneteacher.birthday).format('DD-MM-YYYY')
-                                td.align-middle= oneteacher.phone
-                                td.align-middle= oneteacher.address
+                                td.align-middle= moment(student.birthday).format('DD-MM-YYYY')
+                                td.align-middle= student.phone
+                                td.align-middle= student.email
+                                td.align-middle= student.address
                                 each oneclass in classes
-                                    if(oneteacher.classId == oneclass.id)
+                                    if(student.classId == oneclass.id)
                                         td.align-middle= oneclass.classname
                                 td.align-middle(style="width: 100px")
-                                    a.btn.btn-outline-primary(href=`/teacher/view/${oneteacher.id}`) Xem
+                                    a.btn.btn-outline-primary(href=`/student/view/${student.id}`) Xem
                                 td.align-middle(style="width: 100px")
-                                    a.btn.btn-outline-danger(href=`/teacher/delete/${oneteacher.id}`) Xóa
+                                    a.btn.btn-outline-danger(href=`/student/delete/${student.id}`) Xóa
 
 
 

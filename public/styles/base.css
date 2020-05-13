@@ -52,7 +52,7 @@ html, body {
     /* table  */
 
 td, th {
-    max-width: 120px;
+    max-width: 140px;
     overflow-wrap: break-word; 
     word-wrap: break-word;
 }

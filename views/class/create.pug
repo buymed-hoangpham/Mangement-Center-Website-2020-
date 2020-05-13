@@ -7,16 +7,41 @@ block content
         if success
             .alert.alert-success=success
         form.form.container-fluid(method="post", action="/class/create")
-            .form-group.row
-                label.col-2(for="classname") Tên lớp: 
-                .col-10
-                    input.form-control#classname(type="text", name="classname", placeholder="Nhập tên lớp...", required)
-            .form-group.row
-                label.col-2(for="newPassword") Mật khẩu mới: 
-                .col-10
-                    input.form-control#newPassword(type="password", name="newPassword", placeholder="Nhập mật khẩu mới...", required)
-            .form-group.row
-                label.col-2(for="retypenewPassword") Nhập lại mật khẩu mới: 
-                .col-10
-                    input.form-control#retypenewPassword(type="password", name="retypenewPassword", placeholder="Nhập lại mật khẩu mới...", required)
-                    button.btn.btn-primary.my-2 Đổi mật khẩu
+            .form-row
+                .form-group.col-6
+                    label(for="classname") Tên lớp: 
+                    input.form-control#classname(type="text", name="classname", placeholder="Nhập tên lớp...")
+                .form-group.col-6
+                    label(for="teachername") Tên giáo viên: 
+                    select.custom-select(name="studentname")
+                        each teacher in teachers
+                            option(value= teacher.id)= `Id: ${teacher.id} - Tên: ${teacher.teachername}`
+            .form-row
+                .form-group.col-3
+                    label(for="classname") Thêm học viên: 
+                .form-group.col-9
+                    table.table.table-hover.col-12#table
+                        thead.thead-dark.text-center
+                            th(style="width: 40px")
+                            th(style="width: 40px").align-top STT
+                            th.align-top Học viên
+                            th(style="width: 120px")
+                        tbody
+                            tr
+                                td.align-middle.text-center
+                                    button.btn(data-toggle="tooltip", title="Thêm mới", data-placement="bottom", name="btn", value="addNewRow")
+                                        i(class="fal fa-plus-circle fa-2x", style="color: #2db1eb")
+                                td.align-middle.text-center= ++count
+                                td
+                                    select.custom-select(name="studentname")
+                                        each student in students
+                                            option(value= student.id)= `Id: ${student.id} - Tên: ${student.studentname}`
+                                td.px-4
+                                    a.btn.btn-outline-danger Xóa
+            .form-row(style="bottom: 10px")
+                .col-4
+                .col-6
+                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="createClass") Thêm
+                    a.btn.btn-secondary.btn-lg(href="/class") Quay lại
+
+            

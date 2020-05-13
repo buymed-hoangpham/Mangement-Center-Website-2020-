@@ -3,10 +3,18 @@ block content
     .container-fluid
         .row.d-flex.justify-content-between.align-items-center
             .col-8.col-sm-8
-                h1 Danh sách lớp: #{class.classname}
+                h1 Danh sách lớp: 
+                    span(style="color: #589cdb") #{thisClass.classname}
             .col-4.col-sm-4
-                if teacher
-                    span Giáo viên: #{teacher.teachername}
+                
+        .row
+            .col-8.col-sm-8
+                h4.p-0 Giáo viên: 
+                    if teacher
+                        span(style="color: #24ad4b")= teacher.teachername
+            .col-4.col-sm-4
+                h4.text-right.pr-4 Sĩ số: 
+                    span(style="color: #24ad4b")= thisClass.number
         .row 
             .table-responsive
                 table.table.table-hover
@@ -14,29 +22,34 @@ block content
                         th STT
                         th.align-top Ảnh
                         th.text-left ID học viên
-                        th.align-top.text-center Tên học viên
+                        th.align-top.text-left Tên học viên
                         th.align-top.text-center Giới tính
                         th.align-top.text-center Ngày sinh
                         th
                         th
                     tbody.text-center
-                        each student in students
-                            tr
-                                td.text-center.align-middle=++count
-                                td.align-middle
-                                    if !student.avatar
-                                        img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
+                        if students
+                            each student in students
+                                tr
+                                    td.text-center.align-middle=++count
+                                    td.align-middle
+                                        if !student.avatar
+                                            img.rounded-circle(width="48px", height="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
+                                        else
+                                            img.rounded-circle(width="48px", height="48px", src=student.avatar)
+                                    td.text-left.align-middle(style="max-width: 100px; overflow-wrap: break-word; word-wrap: break-word;")=student.id
+                                    td.text-left.align-middle=student.studentname
+                                    if student.gender == true
+                                        td.align-middle Nữ
                                     else
-                                        img.rounded-circle(width="48px", src=student.avatar)
-                                td.text-left.align-middle(style="max-width: 100px; overflow-wrap: break-word; word-wrap: break-word;")=student.id
-                                td.text-left.align-middle=student.studentname
-                                if student.gender == true
-                                    td.align-middle Nữ
-                                else
-                                    td.align-middle Nam
-                                td.align-middle= moment(student.birthday).format('DD-MM-YYYY')
-                                td(style="width: 100px")
-                                    a.btn.btn-outline-primary(href="") Điểm
-                                td(style="width: 100px")
-                                    a.btn.btn-outline-danger(href=`/class/delete/${student.id}`) Xóa
+                                        td.align-middle Nam
+                                    td.align-middle= moment(student.birthday).format('DD-MM-YYYY')
+                                    td(style="width: 100px")
+                                        a.btn.btn-outline-primary(href="") Điểm
+                                    td(style="width: 100px")
+                                        a.btn.btn-outline-danger(href=`/class/view/remove/${student.id}`) Xóa
+                        else
+                            tr 
+                                td 
+                                    h1 Chưa có học sinh
 

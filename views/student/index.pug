@@ -28,9 +28,9 @@ block content
                                 td.text-center.align-middle= ++count
                                 td.align-middle
                                     if !student.avatar
-                                        img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
+                                        img.rounded-circle(width="48px", height="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
                                     else
-                                        img.rounded-circle(width="48px", src=student.avatar)
+                                        img.rounded-circle(width="48px", height="48px", src=student.avatar)
                                 td.text-left.align-middle= student.id
                                 td.text-left.align-middle= student.studentname
                                 if student.gender == true

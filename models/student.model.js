@@ -7,7 +7,7 @@ const studentSchema = new Schema({
         birthday: Date,
         phone: String,
         address: String,
-        classId: String,
+        classId: Array,
         email: String,
         avatar: String
     }, {

@@ -27,9 +27,9 @@ block content
                                 td.text-center.align-middle= ++count
                                 td.align-middle
                                     if !oneteacher.avatar
-                                        img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
+                                        img.rounded-circle(width="48px", height="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
                                     else
-                                        img.rounded-circle(width="48px", src=oneteacher.avatar)
+                                        img.rounded-circle(width="48px", height="48px", src=oneteacher.avatar)
                                 td.text-left.align-middle= oneteacher.id
                                 td.text-left.align-middle= oneteacher.teachername
                                 if oneteacher.gender == true

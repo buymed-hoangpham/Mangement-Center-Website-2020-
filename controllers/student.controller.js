@@ -14,7 +14,7 @@ module.exports.render = async(req, res) => {
     let count = begin;
 
     res.render('./student/index', {
-        students: students.splice(begin, end),
+        students: students.slice(begin, end),
         count,
         titleLink: 'student',
         pageSize,

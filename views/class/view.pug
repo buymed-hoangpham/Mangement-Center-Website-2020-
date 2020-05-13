@@ -1,0 +1,42 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        .row.d-flex.justify-content-between.align-items-center
+            .col-8.col-sm-8
+                h1 Danh sách lớp: #{class.classname}
+            .col-4.col-sm-4
+                if teacher
+                    span Giáo viên: #{teacher.teachername}
+        .row 
+            .table-responsive
+                table.table.table-hover
+                    thead.thead-light.text-center
+                        th STT
+                        th.align-top Ảnh
+                        th.text-left ID học viên
+                        th.align-top.text-center Tên học viên
+                        th.align-top.text-center Giới tính
+                        th.align-top.text-center Ngày sinh
+                        th
+                        th
+                    tbody.text-center
+                        each student in students
+                            tr
+                                td.text-center.align-middle=++count
+                                td.align-middle
+                                    if !student.avatar
+                                        img.rounded-circle(width="48px", src="https://res.cloudinary.com/hoapha1009/image/upload/v1589121362/management-center/teacher-default_gaqfks.png")
+                                    else
+                                        img.rounded-circle(width="48px", src=student.avatar)
+                                td.text-left.align-middle(style="max-width: 100px; overflow-wrap: break-word; word-wrap: break-word;")=student.id
+                                td.text-left.align-middle=student.studentname
+                                if student.gender == true
+                                    td.align-middle Nữ
+                                else
+                                    td.align-middle Nam
+                                td.align-middle= moment(student.birthday).format('DD-MM-YYYY')
+                                td(style="width: 100px")
+                                    a.btn.btn-outline-primary(href="") Điểm
+                                td(style="width: 100px")
+                                    a.btn.btn-outline-danger(href=`/class/delete/${student.id}`) Xóa
+

@@ -71,6 +71,7 @@ module.exports.postCreate = async (req, res) => {
     let teachers = await Teacher.find();
     let classname = req.body.classname;
     let teacher = req.body.teachername;
+    let type = req.body.type;
     let teacherId = teacher.replace('Id: ', '').split(' - Tên: ').shift();
     let arrOption = req.body.optionValue;
     let arrStudentId = [];
@@ -78,7 +79,8 @@ module.exports.postCreate = async (req, res) => {
     let errorMessage = '';
     let data = {
         classname,
-        number: arrOption.length
+        number: arrOption.length,
+        type
     };
     
     await Class.create(data);

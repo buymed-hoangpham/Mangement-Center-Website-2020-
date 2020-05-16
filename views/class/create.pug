@@ -8,25 +8,30 @@ block content
             .alert.alert-success=successMessage
         form.form.container-fluid(method="post", action="/class/create")
             .form-row
-                .form-group.col-6
+                .form-group.col-3
                     label(for="classname") Tên lớp: 
                     input.form-control#classname(type="text", name="classname", placeholder="Nhập tên lớp...", required)
+                .form-group.col-3
+                    label(for="type") Loại lớp: 
+                    select.custom-select#type(name="type")
+                            option(value="T") Tin học
+                            option(value="L") Ngoại ngữ
                 .form-group.col-6
                     label(for="teachername") Tên giáo viên: 
                     select.custom-select(name="teachername")
                         each teacher in teachers
                             option= `Id: ${teacher.id} - Tên: ${teacher.teachername}`
             .form-row
-                .form-group.col-3
+                .form-group.col-2
                     label(for="classname") Thêm học viên: 
-                .form-group.col-9
+                .form-group.col-10
                     table.table.table-hover.col-12#table
                         thead.thead-dark.text-center
                             th.align-top Học viên
                             th(style="width: 40px") Thêm
                             th(style="width: 120px") Xóa
                         tbody
-                            tr.tr
+                            tr.tr.bg-dark
                                 td
                                     select.custom-select#studentname(name="student")
                                         option(value="0") Chọn học viên
@@ -36,7 +41,7 @@ block content
                                     button.btn.btn-outline-primary#addNewRowBtn(data-toggle="tooltip", type="button", title="Thêm mới", data-placement="bottom", name="btn", value="addNewRow", style="padding: 10 30px")
                                         i(class="fad fa-user-plus fa-1x", style="color: #2db1eb") 
                                 td
-            .form-row(style="bottom: 10px; position: fixed; width: 100%")
+            .form-row(style="bottom: 10px; width: 100%")
                 .col-4
                 .col-6
                     button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="createClass") Tạo lớp

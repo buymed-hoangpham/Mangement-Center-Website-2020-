@@ -65,12 +65,13 @@ module.exports.create = async(req, res) => {
     });
 };
 
-module.exports.postCreate = async(req, res) => {
+module.exports.postCreate = async (req, res) => {
     let count = 0;
     let students = await Student.find();
     let teachers = await Teacher.find();
     let classname = req.body.classname;
     let teacher = req.body.teachername;
+    let teacherId = teacher.replace('Id: ', '').split(' - Tên: ').shift();
     let arrOption = req.body.optionValue;
     let arrStudentId = [];
     let successMessage = '';
@@ -80,20 +81,23 @@ module.exports.postCreate = async(req, res) => {
         number: arrOption.length
     };
     
-    
     await Class.create(data);
     let classStudy = await Class.findOne({ classname: classname });
+    await Teacher.findOneAndUpdate({ _id: teacherId },
+        { $push: { classId: classStudy.id } }
+    );
     for(var i = 0; i < arrOption.length; i++) {
         arrStudentId.push(arrOption[i].replace('Id: ', '').split(' - Tên: ').shift());
     }
-    for(var i = 0; i < arrStudentId.length; i++) {
-        await Student.findOneAndUpdate({ _id: arrStudentId[i] },
-            { $push: { classId: classStudy.id } },
-            (error, success) => {
-                (success) ? successMessage = 'Tạo lớp mới thành công!' : errorMessage = 'Tạo lớp mới thất bại!'; 
-        });
+    for(let item of arrStudentId) {
+        await Student.findOneAndUpdate({ _id: item },
+            { $push: { classId: classStudy.id } }
+        );
     }
-
+    await Student.findOne({ classId: classStudy.id }) && Teacher.findOne({ classId: classStudy.id }) && Class.findOne({ id: classStudy.id })
+    ? successMessage = 'Tạo lớp mới thành công!'
+    : errorMessage = 'Tạo lớp mới thất bại!';
+    
     res.render('./class/create', {
         count,
         students,

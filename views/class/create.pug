@@ -2,10 +2,10 @@ extends ../layouts/common
 block content
     .container-fluid
         h1 Tạo lớp:
-        if errors
-            .alert.alert-danger=errors
-        if success
-            .alert.alert-success=success
+        if errorMessage
+            .alert.alert-danger=errorMessage
+        if successMessage
+            .alert.alert-success=successMessage
         form.form.container-fluid(method="post", action="/class/create")
             .form-row
                 .form-group.col-6
@@ -13,9 +13,9 @@ block content
                     input.form-control#classname(type="text", name="classname", placeholder="Nhập tên lớp...", required)
                 .form-group.col-6
                     label(for="teachername") Tên giáo viên: 
-                    select.custom-select(name="studentname")
+                    select.custom-select(name="teachername")
                         each teacher in teachers
-                            option(value= teacher.id)= `Id: ${teacher.id} - Tên: ${teacher.teachername}`
+                            option= `Id: ${teacher.id} - Tên: ${teacher.teachername}`
             .form-row
                 .form-group.col-3
                     label(for="classname") Thêm học viên: 
@@ -30,7 +30,7 @@ block content
                             tr.tr
                                 td
                                 td
-                                    select.custom-select#studentname(name="studentname")
+                                    select.custom-select#studentname(name="student")
                                         option(value="0") Chọn học viên
                                         each student in students
                                             option(value= `${student.id}-${student.studentname}`)= `Id: ${student.id} - Tên: ${student.studentname}`

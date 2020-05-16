@@ -66,5 +66,39 @@ module.exports.create = async(req, res) => {
 };
 
 module.exports.postCreate = async(req, res) => {
+    let count = 0;
+    let students = await Student.find();
+    let teachers = await Teacher.find();
+    let classname = req.body.classname;
+    let teacher = req.body.teachername;
+    let arrOption = req.body.optionValue;
+    let arrStudentId = [];
+    let successMessage = '';
+    let errorMessage = '';
+    let data = {
+        classname,
+        number: arrOption.length
+    };
     
+    
+    await Class.create(data);
+    let classStudy = await Class.findOne({ classname: classname });
+    for(var i = 0; i < arrOption.length; i++) {
+        arrStudentId.push(arrOption[i].replace('Id: ', '').split(' - Tên: ').shift());
+    }
+    for(var i = 0; i < arrStudentId.length; i++) {
+        await Student.findOneAndUpdate({ _id: arrStudentId[i] },
+            { $push: { classId: classStudy.id } },
+            (error, success) => {
+                (success) ? successMessage = 'Tạo lớp mới thành công!' : errorMessage = 'Tạo lớp mới thất bại!'; 
+        });
+    }
+
+    res.render('./class/create', {
+        count,
+        students,
+        successMessage,
+        errorMessage,
+        teachers
+    });
 };

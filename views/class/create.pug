@@ -2,46 +2,47 @@ extends ../layouts/common
 block content
     .container-fluid
         h1 Tạo lớp:
-        if errors
-            .alert.alert-danger=errors
-        if success
-            .alert.alert-success=success
+        if errorMessage
+            .alert.alert-danger=errorMessage
+        if successMessage
+            .alert.alert-success=successMessage
         form.form.container-fluid(method="post", action="/class/create")
             .form-row
                 .form-group.col-6
                     label(for="classname") Tên lớp: 
-                    input.form-control#classname(type="text", name="classname", placeholder="Nhập tên lớp...")
+                    input.form-control#classname(type="text", name="classname", placeholder="Nhập tên lớp...", required)
                 .form-group.col-6
                     label(for="teachername") Tên giáo viên: 
-                    select.custom-select(name="studentname")
+                    select.custom-select(name="teachername")
                         each teacher in teachers
-                            option(value= teacher.id)= `Id: ${teacher.id} - Tên: ${teacher.teachername}`
+                            option= `Id: ${teacher.id} - Tên: ${teacher.teachername}`
             .form-row
                 .form-group.col-3
                     label(for="classname") Thêm học viên: 
                 .form-group.col-9
                     table.table.table-hover.col-12#table
                         thead.thead-dark.text-center
-                            th(style="width: 40px")
                             th(style="width: 40px").align-top STT
                             th.align-top Học viên
-                            th(style="width: 120px")
+                            th(style="width: 40px") Thêm
+                            th(style="width: 120px") Xóa
                         tbody
-                            tr
-                                td.align-middle.text-center
-                                    button.btn(data-toggle="tooltip", title="Thêm mới", data-placement="bottom", name="btn", value="addNewRow")
-                                        i(class="fal fa-plus-circle fa-2x", style="color: #2db1eb")
-                                td.align-middle.text-center= ++count
+                            tr.tr
                                 td
-                                    select.custom-select(name="studentname")
+                                td
+                                    select.custom-select#studentname(name="student")
+                                        option(value="0") Chọn học viên
                                         each student in students
-                                            option(value= student.id)= `Id: ${student.id} - Tên: ${student.studentname}`
-                                td.px-4
-                                    a.btn.btn-outline-danger Xóa
-            .form-row(style="bottom: 10px")
+                                            option(value= `${student.id}-${student.studentname}`)= `Id: ${student.id} - Tên: ${student.studentname}`
+                                td
+                                    button.btn.btn-outline-primary#addNewRowBtn(data-toggle="tooltip", type="button", title="Thêm mới", data-placement="bottom", name="btn", value="addNewRow", style="padding: 10 30px")
+                                        i(class="fad fa-user-plus fa-1x", style="color: #2db1eb") 
+                                td
+            .form-row(style="bottom: 10px; position: fixed; width: 100%")
                 .col-4
                 .col-6
-                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="createClass") Thêm
+                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="createClass") Tạo lớp
                     a.btn.btn-secondary.btn-lg(href="/class") Quay lại
 
             
+    

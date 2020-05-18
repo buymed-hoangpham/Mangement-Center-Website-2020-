@@ -18,6 +18,7 @@ const userRouter = require('./routes/user.route');
 const classRouter = require('./routes/class.route');
 const teacherRouter = require('./routes/teacher.route');
 const studentRouter = require('./routes/student.route');
+const pointRouter = require('./routes/point.route');
 
 const requireAuthMiddleware = require('./middlewares/auth.middleware');
 
@@ -36,6 +37,7 @@ app.use('/user', requireAuthMiddleware, userRouter);
 app.use('/class', requireAuthMiddleware, classRouter);
 app.use('/teacher', requireAuthMiddleware, teacherRouter);
 app.use('/student', requireAuthMiddleware, studentRouter);
+app.use('/point', requireAuthMiddleware, pointRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server listening on port " + process.env.PORT);

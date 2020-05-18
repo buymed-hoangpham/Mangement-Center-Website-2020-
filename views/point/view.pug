@@ -1,0 +1,66 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        .row.d-flex.justify-content-between.align-items-center
+            .col-6
+                h1 Bảng điểm của: 
+                    span(style="color: blue") #{student.studentname}
+            .col-6
+                h3.text-right.pt-2 Lớp: 
+                    span(style="color: green") #{findClass.classname}
+        .row
+            .col-12
+                if errorMessage
+                    .alert.alert-danger=errorMessage
+                if successMessage
+                    .alert.alert-success=successMessage
+        .row
+            if(type=="L")
+                form.form.container-fluid(method="post", action="/point/view/update")
+                    .form-row
+                        .form-group.col-6
+                            label(for="speaking") Speaking: 
+                            input.form-control#speaking(type="text", name="speaking", value= pointLanguage.speaking)
+                            input(name="type", value= type, hidden)
+                            input(name="classId", value= classId, hidden)
+                            input.form-control(name="studentId", value= student.id, hidden)
+                        .form-group.col-6
+                            label(for="listening") Listening: 
+                            input.form-control#listening(type="text", name="listening", value= pointLanguage.listening)
+                        .form-group.col-6
+                            label(for="writing") Writing: 
+                            input.form-control#writing(type="text", name="writing", value= pointLanguage.writing)
+                        .form-group.col-6
+                            label(for="reading") Reading: 
+                            input.form-control#reading(type="text", name="reading", value= pointLanguage.reading)
+                        //- .form-group.col-6
+                        //-     label(for="obs") OBS: 
+                        //-     input.form-control#obs(type="text", name="obs", value= pointLanguage.obs)
+                        //- .form-group.col-6
+                        //-     label(for="cefr") CEFR: 
+                        //-     input.form-control#cefr(type="text", name="cefr", value= pointLanguage.cefr)
+                    .form-row(style="bottom: 10px; width: 100%")
+                        .col-4
+                        .col-6
+                            button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="updatePoint") Cập nhật
+                            a.btn.btn-secondary.btn-lg(href="/point") Quay lại
+            else
+                form.form.container-fluid(method="post", action="/point/view/update")
+                    .form-row
+                        .form-group.col-6
+                            label(for="theory") Theory: 
+                            input.form-control#theory(type="text", name="theory", value= pointIT.theory)
+                        .form-group.col-6
+                            label(for="practice") Practice: 
+                            input.form-control#practice(type="text", name="practice", value= pointIT.practice)
+                        //- .form-group.col-6
+                        //-     label(for="obs") OBS: 
+                        //-     input.form-control#obs(type="text", name="obs", value= pointIT.obs)
+                        //- .form-group.col-6
+                        //-     label(for="cefr") CEFR: 
+                        //-     input.form-control#cefr(type="text", name="cefr", value= pointIT.cefr)
+                    .form-row(style="bottom: 10px; width: 100%")
+                        .col-4
+                        .col-6
+                            button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="updatePoint") Cập nhật
+                            a.btn.btn-secondary.btn-lg(href="/point") Quay lại

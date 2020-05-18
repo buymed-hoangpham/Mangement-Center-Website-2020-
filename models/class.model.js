@@ -3,7 +3,9 @@ const Schema = mongoose.Schema;
 
 const classSchema = new Schema({
         classname: String,
-        number: Number
+        number: Number,
+        type: String,
+        teacherid: String,
     }, {
         versionKey: false 
 });

@@ -1,0 +1,29 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        h1 Xem điểm:
+        if errorMessage
+            .alert.alert-danger=errorMessage
+        form.form.container-fluid(method="post", action="/point/view")
+            .form-row
+                .form-group.col-4
+                    label(for="type") Chọn loại lớp: 
+                    select.custom-select#type(name="type")
+                            option(value="T") Tin học
+                            option(value="L") Ngoại ngữ
+                .form-group.col-8
+                    label(for="class") Chọn lớp học: 
+                    select.custom-select(name="class")
+                        each oneclass in classes
+                            option= `Id: ${oneclass.id} - Tên: ${oneclass.classname}`
+            .form-row
+                .form-group.col-12
+                    label(for="student") Chọn học viên: 
+                    select.custom-select(name="student")
+                        each student in students
+                            option= `Id: ${student.id} - Tên: ${student.studentname}`
+            .form-row(style="bottom: 10px; width: 100%")
+                .col-4
+                .col-6
+                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", type="submit", name="btn", value="createClass") Xem
+                    a.btn.btn-secondary.btn-lg(href="/") Quay lại

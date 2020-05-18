@@ -5,6 +5,7 @@ const Teacher = require('../models/teacher.model');
 
 module.exports.render = async(req, res) => {
     let classes = await Class.find();
+    let teachers = await Teacher.find();
     let currentPage = req.query.page ? parseInt(req.query.page) : 1;
     let perPage = 7;
     let pageSize = Math.ceil(classes.length / perPage );
@@ -14,6 +15,7 @@ module.exports.render = async(req, res) => {
 
     res.render('./class/index', {
         classes: classes.slice(begin, end),
+        teachers,
         count,
         titleLink: 'class',
         pageSize,
@@ -37,6 +39,7 @@ module.exports.view = async(req, res) => {
     let end = currentPage * perPage;
     let count = begin;
 
+    res.cookie('thisClass', thisClass);
     res.render('./class/view', {
         thisClass,
         teacher,
@@ -50,7 +53,8 @@ module.exports.view = async(req, res) => {
 };
 
 module.exports.removeStudent = async(req, res) => {
-    let student = await Student.findByIdAndUpdate(req.params.id, { classId: '' });
+    await Student.findByIdAndUpdate(req.params.id, { classId: '' });
+    await Class.findByIdAndUpdate(req.cookies.thisClass, { number: req.cookies.thisClass.number - 1 });
     res.redirect('back');
 };
 
@@ -77,28 +81,46 @@ module.exports.postCreate = async (req, res) => {
     let arrStudentId = [];
     let successMessage = '';
     let errorMessage = '';
-    let data = {
-        classname,
-        number: arrOption.length,
-        type
-    };
-    
-    await Class.create(data);
-    let classStudy = await Class.findOne({ classname: classname });
-    await Teacher.findOneAndUpdate({ _id: teacherId },
-        { $push: { classId: classStudy.id } }
-    );
-    for(var i = 0; i < arrOption.length; i++) {
-        arrStudentId.push(arrOption[i].replace('Id: ', '').split(' - Tên: ').shift());
-    }
-    for(let item of arrStudentId) {
-        await Student.findOneAndUpdate({ _id: item },
-            { $push: { classId: classStudy.id } }
+
+    if( arrOption == undefined ) {
+        let data = {
+            classname,
+            number: 0,
+            type,
+            teacherid: teacherId 
+        };
+        await Class.create(data);
+        let classStudy = await Class.findOne({ classname: classname });
+        await Teacher.findOneAndUpdate({ _id: teacherId },
+            { classId: classStudy.id }
         );
+        await  Teacher.findOne({ classId: classStudy.id }) && Class.findOne({ id: classStudy.id })
+        ? successMessage = 'Tạo lớp mới thành công!'
+        : errorMessage = 'Tạo lớp mới thất bại!';
+    } else {
+        let data = {
+            classname,
+            number: arrOption.length,
+            type,
+            teacherid: teacherId 
+        };
+        await Class.create(data);
+        let classStudy = await Class.findOne({ classname: classname });
+        await Teacher.findOneAndUpdate({ _id: teacherId },
+            { classId: classStudy.id }
+        );
+        for(var i = 0; i < arrOption.length; i++) {
+            arrStudentId.push(arrOption[i].replace('Id: ', '').split(' - Tên: ').shift());
+        }
+        for(let item of arrStudentId) {
+            await Student.findOneAndUpdate({ _id: item },
+                { classId: classStudy.id } 
+            );
+        }
+        await Student.findOne({ classId: classStudy.id }) && Teacher.findOne({ classId: classStudy.id }) && Class.findOne({ id: classStudy.id })
+        ? successMessage = 'Tạo lớp mới thành công!'
+        : errorMessage = 'Tạo lớp mới thất bại!';
     }
-    await Student.findOne({ classId: classStudy.id }) && Teacher.findOne({ classId: classStudy.id }) && Class.findOne({ id: classStudy.id })
-    ? successMessage = 'Tạo lớp mới thành công!'
-    : errorMessage = 'Tạo lớp mới thất bại!';
     
     res.render('./class/create', {
         count,

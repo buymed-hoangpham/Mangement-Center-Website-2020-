@@ -45,7 +45,7 @@ block content
                                         td.align-middle Nam
                                     td.align-middle= moment(student.birthday).format('DD-MM-YYYY')
                                     td(style="width: 100px")
-                                        a.btn.btn-outline-primary(href="") Điểm
+                                        a.btn.btn-outline-primary(href=`/point/view/${student.id}`) Điểm
                                     td(style="width: 100px")
                                         a.btn.btn-outline-danger(href=`/class/view/remove/${student.id}`) Xóa
                         else

@@ -1,0 +1,118 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        if certi.type == "T"
+            h1 Chứng chỉ tin học: 
+            form.form.container-fluid(method="post", action="/certi/view")
+                .form-row
+                    .form-group.col-7.form
+                        .form-group
+                            label(for="studentid") ID học viên:
+                            input.form-control(type="text", name="id", value= student.id)
+                        .form-group
+                            label(for="studentname") Họ tên học viên: 
+                            input.form-control#studentname(type="text", name="studentname", value= student.studentname)
+                        .form-group
+                            label(for='class') Học lớp: 
+                            input.form-control#class(type="text", name="class", value= thisClass.classname) 
+                    .form-group.col-5.form
+                        .form-group.row
+                            .col-3
+                            .col-9(style="padding-top: 40px !important;")
+                                img.rounded-circle(src=student.avatar, width="200px")
+                .form-row
+                    .form-group.col-6
+                        label(for='gender') Giới tính:
+                        if(student.gender == true)
+                            input#gender.form-control(type='text', name="gender", value="Nữ")
+                        else
+                            input#gender.form-control(type='text', name="gender", value="Nam") 
+                    .form-group.col-6
+                        label(for='birthday') Ngày sinh:
+                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'))
+                .form-row
+                    .form-group.col-12
+                        label(for="address") Địa chỉ: 
+                        input.form-control#phone(name="address", type='text', value= student.address)
+                .form-row
+                    .col-12
+                        label(for='class') 
+                            h4.m-0  Kết quả thi:
+                    .form-group.col-12.form-row
+                        .form-group.col-3
+                            label(for='theory') Theory:
+                            input#theory.form-control(type='text', name="theory", value= point.theory)
+                        .form-group.col-3
+                            label(for='practice') Practice:
+                            input#practice.form-control(type='text', name="practice", value= point.practice)
+                        .form-group.col-3
+                            label(for='obs') OBS:
+                            input#obs.form-control(type='text', name="obs", value= point.obs)
+                        .form-group.col-3
+                            label(for='cefr') CEFR:
+                            input#cefr.form-control(type='text', name="cefr", value= point.cefr)
+                .form-row
+                    .col-4
+                    .col-4
+                        a.btn.btn-secondary.btn-lg.d-block(href="/certi") Quay lại
+        else
+            h1 Chứng chỉ tiếng anh: 
+            form.form.container-fluid(method="post", action="/certi/view")
+                .form-row
+                    .form-group.col-7.form
+                        .form-group
+                            label(for="studentid") ID học viên:
+                            input.form-control(type="text", name="id", value= student.id)
+                        .form-group
+                            label(for="studentname") Họ tên học viên: 
+                            input.form-control#studentname(type="text", name="studentname", value= student.studentname)
+                        .form-group
+                            label(for='class') Học lớp: 
+                            input.form-control#class(type="text", name="class", value= thisClass.classname) 
+                    .form-group.col-5.form
+                        .form-group.row
+                            .col-3
+                            .col-9(style="padding-top: 40px !important;")
+                                img.rounded-circle(src=student.avatar, width="200px")
+                .form-row
+                    .form-group.col-6
+                        label(for='gender') Giới tính:
+                        if(student.gender == true)
+                            input#gender.form-control(type='text', name="gender", value="Nữ")
+                        else
+                            input#gender.form-control(type='text', name="gender", value="Nam") 
+                    .form-group.col-6
+                        label(for='birthday') Ngày sinh:
+                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'))
+                .form-row
+                    .form-group.col-12
+                        label(for="address") Địa chỉ: 
+                        input.form-control#phone(name="address", value= student.address)
+                .form-row
+                    .col-12
+                        label(for='class') 
+                            h4.m-0  Kết quả thi:
+                    .form-group.col-12.form-row
+                        .form-group.col-2
+                            label(for='listening') Listening:
+                            input#listening.form-control(type='text', name="listening", value= point.listening)
+                        .form-group.col-2
+                            label(for='writing') Writing:
+                            input#writing.form-control(type='text', name="writing", value= point.writing)
+                        .form-group.col-2
+                            label(for='reading') Reading:
+                            input#reading.form-control(type='text', name="reading", value= point.reading)
+                        .form-group.col-2
+                            label(for='speaking') Speaking:
+                            input#speaking.form-control(type='text', name="speaking", value= point.speaking)
+                        .form-group.col-2
+                            label(for='obs') OBS:
+                            input#obs.form-control(type='text', name="obs", value= point.obs)
+                        .form-group.col-2
+                            label(for='cefr') CEFR:
+                            input#cefr.form-control(type='text', name="cefr", value= point.cefr)
+                .form-row
+                    .col-4
+                    .col-4
+                        a.btn.btn-secondary.btn-lg.d-block(href="/certi") Quay lại
+

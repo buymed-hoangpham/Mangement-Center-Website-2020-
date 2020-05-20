@@ -5,30 +5,28 @@ block content
             .col-9.col-sm-9
                 h1 Danh sách chứng chỉ
             .col-3.col-sm-3
-                a.d-block.mr-4.p-1.btn.btn-info.text-center(href="/class/create", style="font-size: 20px") Tạo lớp
+                a.d-block.mr-4.p-1.btn.btn-info.text-center(href="/certi/create", style="font-size: 20px") Tạo chứng chỉ
         .row 
             .table-responsive
                 table.table.table-hover
                     thead.thead-light.text-center
                         th STT
-                        th.text-left ID
-                        th.text-left Tên lớp
-                        th.text-left Giáo viên
-                        th Sĩ số
+                        th.text-left ID chứng chỉ
+                        th.text-left Tên học viên
+                        th.text-left Cấp
                         th
                         th
                     tbody.text-center
-                        each oneclass in classes
+                        each certi in certies
                             tr
                                 td.text-center.align-middle=++count
-                                td.text-left.align-middle(style="max-width: 130px; overflow-wrap: break-word; word-wrap: break-word;")=oneclass.id
-                                td.text-left.align-middle=oneclass.classname
-                                each teacher in teachers
-                                    if(oneclass.id == teacher.classId)
-                                        td.text-left.align-middle=teacher.teachername
-                                td.align-middle=oneclass.number
+                                td.text-left.align-middle(style="max-width: 130px; overflow-wrap: break-word; word-wrap: break-word;")=certi.id
+                                each student in students
+                                    if(student.id == certi.studentid)
+                                        td.text-left.align-middle=student.studentname
+                                td.text-left.align-middle=certi.cefr
                                 td(style="width: 100px")
-                                    a.btn.btn-outline-primary(href=`/class/view/${oneclass.id}`) Xem
+                                    a.btn.btn-outline-primary(href=`/certi/view/${certi.id}`) Xem
                                 td(style="width: 100px")
-                                    a.btn.btn-outline-danger(href=`/class/delete/${oneclass.id}`) Xóa
+                                    a.btn.btn-outline-danger(href=`/certi/delete/${certi.id}`) Xóa
 

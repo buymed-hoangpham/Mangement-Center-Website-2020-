@@ -1,0 +1,132 @@
+const moment = require('moment')
+const Class = require('../models/class.model');
+const Student = require('../models/student.model');
+const Certi = require('../models/certi.model');
+const PointIT = require('../models/pointIT.model');
+const PointLanguage = require('../models/pointLanguage.model');
+
+module.exports.render = async(req, res) => {
+    let certies = await Certi.find();
+    let students = await Student.find();
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(certies.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+
+    res.render('./certi/index', {
+        certies: certies.slice(begin, end),
+        students,
+        count,
+        titleLink: 'certi',
+        pageSize,
+        currentPage
+    })
+}
+
+module.exports.delete = async(req, res) => {
+    await Certi.findByIdAndRemove(req.params.id);
+    res.redirect('back');
+};
+
+module.exports.create = async(req, res) => {
+    let classes = await Class.find();
+    let students = await Student.find();
+    
+    res.render('./certi/create', {
+        students,
+        classes
+    })
+}
+
+module.exports.postCreate = async (req, res) => {
+    let type = req.body.type;
+    let classes = await Class.find();
+    let students = await Student.find();
+    let errorMessage = '';
+    let successMessage = '';
+
+    if(type == 'L') {
+        let point = await PointLanguage.findOne({ userid: req.body.student, classid: req.body.class })
+        if(!point) {
+            let errorMessage = 'Học viên không tồn tại! Không thể tạo chứng chỉ!'
+            res.render('./certi/create', {
+                students,
+                classes,
+                errorMessage
+            })
+            return;
+        }
+        let data = {
+            studentid: req.body.student, 
+            cefr: point.cefr,
+            type,
+            classid: req.body.class
+        }
+
+        let newCerti = await Certi.create(data);
+        ! newCerti ? errorMessage = 'Tạo chứng chỉ mới thất bại!' : successMessage = 'Tạo chứng chỉ mới thành công!'
+        res.render('./certi/create', {
+            students,
+            classes,
+            errorMessage, 
+            successMessage
+        })
+        return;
+    } else {
+        let point = await PointIT.findOne({ userid: req.body.student, classid: req.body.class })
+        if(!point) {
+            let errorMessage = 'Học viên không tồn tại! Không thể tạo chứng chỉ!'
+            res.render('./certi/create', {
+                students,
+                classes,
+                errorMessage
+            })
+            return;
+        }
+        let data = {
+            studentid: req.body.student, 
+            cefr: point.cefr,
+            type,
+            classid: req.body.class
+        }
+
+        let newCerti = await Certi.create(data);
+        ! newCerti ? errorMessage = 'Tạo chứng chỉ mới thất bại!' : successMessage = 'Tạo chứng chỉ mới thành công!'
+        res.render('./certi/create', {
+            students,
+            classes,
+            errorMessage, 
+            successMessage
+        })
+        return;
+    }
+}
+
+module.exports.view = async (req, res) => {
+    let certi = await Certi.findById(req.params.id);
+    let student = await Student.findById(certi.studentid);
+    let thisClass = await Class.findById(certi.classid);
+    if(certi.type == "T") {
+        let point = await PointIT.findOne({ userid: certi.studentid, classid: certi.classid })
+        res.render('./certi/view', {
+            student,
+            thisClass,
+            certi,
+            moment,
+            point
+        })
+        return;
+    } else {
+        let point = await PointLanguage.findOne({ userid: certi.studentid, classid: certi.classid })
+        res.render('./certi/view', {
+            student,
+            thisClass,
+            certi,
+            moment,
+            point
+        })
+        return;
+    }
+}

@@ -50,7 +50,7 @@ module.exports.postCreate = async (req, res) => {
     if(type == 'L') {
         let point = await PointLanguage.findOne({ userid: req.body.student, classid: req.body.class })
         if(!point) {
-            let errorMessage = 'Học viên không tồn tại! Không thể tạo chứng chỉ!'
+            let errorMessage = 'Học viên không có điểm! Không thể tạo chứng chỉ!'
             res.render('./certi/create', {
                 students,
                 classes,
@@ -77,7 +77,7 @@ module.exports.postCreate = async (req, res) => {
     } else {
         let point = await PointIT.findOne({ userid: req.body.student, classid: req.body.class })
         if(!point) {
-            let errorMessage = 'Học viên không tồn tại! Không thể tạo chứng chỉ!'
+            let errorMessage = 'Học viên không có điểm! Không thể tạo chứng chỉ!'
             res.render('./certi/create', {
                 students,
                 classes,

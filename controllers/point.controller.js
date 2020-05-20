@@ -29,11 +29,16 @@ module.exports.postRender = async (req, res) => {
 
     if(type=="T") {
         if( ! pointIT ) {
-            let errorMessage = 'Không có dữ liệu học viên!';
-            res.render('./point/index', {
-                errorMessage,
-                classes,
-                students,
+            let pointIT = { 
+                theory: '',
+                practice: ''
+            }
+            res.render('./point/view', {
+                type,
+                student: findStudent,
+                classId,
+                pointIT,
+                findClass
             });
             return;
         }
@@ -47,11 +52,18 @@ module.exports.postRender = async (req, res) => {
         return;
     } else {
         if( ! pointLanguage ) {
-            let errorMessage = 'Không có dữ liệu học viên!';
-            res.render('./point/index', {
-                errorMessage,
-                classes,
-                students,
+            let pointLanguage = { 
+                listening: '',
+                writing: '',
+                reading: '',
+                speaking: ''
+            }
+            res.render('./point/view', {
+                type,
+                student: findStudent,
+                classId,
+                pointLanguage,
+                findClass
             });
             return;
         }
@@ -82,9 +94,12 @@ module.exports.postView = async (req, res) => {
         let theory =  parseInt(req.body.theory);
         let practice =  parseInt(req.body.practice);
         let obs = (theory + practice) / 2;
-        let cefr = obs <4 ? "f" : obs >= 4 ? "b1" : obs >= 5.5 ? "b2" : ( obs >= 7 && obs <9 ) ? "c1" : "c2";
-        let data = { theory, practice, obs, cefr };
+        let cefr = (obs == 9) ? "c2" : (obs >= 7.5) ? "c1" : (obs >= 6) ? "b2" : (obs >= 4.5) ? "b1" : "f";
+        let data = { theory, practice, obs, cefr, userid: studentId, classid: classId, type };
 
+        if(!pointIT) {
+            await PointIT.create(data);
+        }
         await PointIT.findOneAndUpdate({ userid: studentId }, data );
         pointIT = await PointIT.findOne({ userid: studentId, classid: classId });
         res.render('./point/view', {
@@ -103,9 +118,61 @@ module.exports.postView = async (req, res) => {
         let reading =  parseInt(req.body.reading);
         let writing =  parseInt(req.body.writing);
         let obs = (speaking + speaking + reading + writing) / 4;
-        let cefr = obs <4 ? "f" : obs >= 4 ? "b1" : obs >= 5.5 ? "b2" : ( obs >= 7 && obs <9 ) ? "c1" : "c2";
-        let data = { speaking, listening, reading, writing, obs, cefr };
+        let cefr = (obs == 9) ? "c2" : (obs >= 7.5) ? "c1" : (obs >= 6) ? "b2" : (obs >= 4.5) ? "b1" : "f"; 
+        let data = { speaking, listening, reading, writing, obs, cefr, userid: studentId, classid: classId, type };
         
+        if(writing < 0 || writing > 9) {
+            let errorMessage ='Điểm writing phải từ 0 đến 9!';
+            res.render('./point/view', {
+                errorMessage,
+                type,
+                student: findStudent,
+                classId,
+                pointIT,
+                findClass
+            })
+            return;
+        }
+        if(listening < 0 || listening > 9) {
+            let errorMessage ='Điểm listening phải từ 0 đến 9!';
+            res.render('./point/view', {
+                errorMessage,
+                type,
+                student: findStudent,
+                classId,
+                pointIT,
+                findClass
+            })
+            return;
+        }
+        if(writing < 0 || writing > 9) {
+            let errorMessage ='Điểm writing phải từ 0 đến 9!';
+            res.render('./point/view', {
+                errorMessage,
+                type,
+                student: findStudent,
+                classId,
+                pointIT,
+                findClass
+            })
+            return;
+        }
+        
+        if(listening < 0 || listening > 9) {
+            let errorMessage ='Điểm listening phải từ 0 đến 9!';
+            res.render('./point/view', {
+                errorMessage,
+                type,
+                student: findStudent,
+                classId,
+                pointIT,
+                findClass
+            })
+            return;
+        }
+        if(!pointLanguage) {
+            await PointLanguage.create(data);
+        }
         await PointLanguage.findOneAndUpdate({ userid: studentId }, data );
         pointLanguage = await PointLanguage.findOne({ userid: studentId, classid: classId });
         res.render('./point/view', {

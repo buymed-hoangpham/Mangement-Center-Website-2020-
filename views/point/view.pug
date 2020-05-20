@@ -14,51 +14,43 @@ block content
                     .alert.alert-danger=errorMessage
                 if successMessage
                     .alert.alert-success=successMessage
-        .row
+        .row(style=".error: {color: red; font-style: italic;}")
             if(type=="L")
-                form.form.container-fluid(method="post", action="/point/view/update")
+                form.form.container-fluid#form-pointLanguage(method="post", action="/point/view/update")
                     .form-row
                         .form-group.col-6
                             label(for="speaking") Speaking: 
-                            input.form-control#speaking(type="text", name="speaking", value= pointLanguage.speaking)
+                            input.form-control#speaking(type="text", name="speaking", value= pointLanguage.speaking, required)
                             input(name="type", value= type, hidden)
                             input(name="classId", value= classId, hidden)
                             input.form-control(name="studentId", value= student.id, hidden)
                         .form-group.col-6
                             label(for="listening") Listening: 
-                            input.form-control#listening(type="text", name="listening", value= pointLanguage.listening)
+                            input.form-control#listening(type="text", name="listening", value= pointLanguage.listening, required)
                         .form-group.col-6
                             label(for="writing") Writing: 
-                            input.form-control#writing(type="text", name="writing", value= pointLanguage.writing)
+                            input.form-control#writing(type="text", name="writing", value= pointLanguage.writing, required)
                         .form-group.col-6
                             label(for="reading") Reading: 
-                            input.form-control#reading(type="text", name="reading", value= pointLanguage.reading)
-                        //- .form-group.col-6
-                        //-     label(for="obs") OBS: 
-                        //-     input.form-control#obs(type="text", name="obs", value= pointLanguage.obs)
-                        //- .form-group.col-6
-                        //-     label(for="cefr") CEFR: 
-                        //-     input.form-control#cefr(type="text", name="cefr", value= pointLanguage.cefr)
+                            input.form-control#reading(type="text", name="reading", value= pointLanguage.reading, required)
                     .form-row(style="bottom: 10px; width: 100%")
                         .col-4
                         .col-6
                             button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn", value="updatePoint") Cập nhật
                             a.btn.btn-secondary.btn-lg(href="/point") Quay lại
             else
-                form.form.container-fluid(method="post", action="/point/view/update")
+                form.form.container-fluid#form-pointIT(method="post", action="/point/view/update")
                     .form-row
                         .form-group.col-6
                             label(for="theory") Theory: 
-                            input.form-control#theory(type="text", name="theory", value= pointIT.theory)
+                            input.form-control#theory(type="text", name="theory", value= pointIT.theory, required)
+                            .valid-feedback Hello
+                            input(name="type", value= type, hidden)
+                            input(name="classId", value= classId, hidden)
+                            input.form-control(name="studentId", value= student.id, hidden)
                         .form-group.col-6
                             label(for="practice") Practice: 
-                            input.form-control#practice(type="text", name="practice", value= pointIT.practice)
-                        //- .form-group.col-6
-                        //-     label(for="obs") OBS: 
-                        //-     input.form-control#obs(type="text", name="obs", value= pointIT.obs)
-                        //- .form-group.col-6
-                        //-     label(for="cefr") CEFR: 
-                        //-     input.form-control#cefr(type="text", name="cefr", value= pointIT.cefr)
+                            input.form-control#practice(type="text", name="practice", value= pointIT.practice, required)
                     .form-row(style="bottom: 10px; width: 100%")
                         .col-4
                         .col-6

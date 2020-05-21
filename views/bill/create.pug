@@ -1,0 +1,48 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        h1 Tạo biên lai:
+        if errorMessage
+            .alert.alert-danger=errorMessage
+        if successMessage
+            .alert.alert-success=successMessage
+        form.form.container-fluid(method="post", action="/bill/create")
+            .form-row
+                .form-group.col-4
+                    label(for="type") Chọn loại lớp: 
+                    select.custom-select#type(name="type", required)
+                        option(value="") --Chọn loại--
+                        option(value="T") Tin học
+                        option(value="L") Ngoại ngữ
+                .form-group.col-8
+                    label(for="class") Chọn lớp học: 
+                    select.custom-select#class(name="class", required)
+                        option(value="", selected) --Chọn lớp--
+                        each oneclass in classes
+                            option(value=oneclass.id, data-pub= oneclass.type)= `Id: ${oneclass.id} - Tên: ${oneclass.classname}`
+            .form-row
+                .form-group.col-12
+                    label(for="student") Chọn học viên: 
+                    select.custom-select#student(name="student", required)
+                        option(value="", selected) --Chọn học viên--
+                        each student in students
+                            option(value=student.id, data-pub= student.classId)= `Id: ${student.id} - Tên: ${student.studentname}`
+            .form-row
+                .form-group.col-6
+                    label(for="money") Số tiền: 
+                    input.form-control#money(type="text", name="money", required )
+                .form-group.col-6
+                    label(for="date") Ngày lập: 
+                    input.form-control#date(type="date", name="date", required )
+            .form-row
+                .form-group.col-12
+                    label(for="reason") Lý do thu: 
+                    input.form-control#reason(type="text", name="reason", required)
+            .form-row(style="bottom: 10px; width: 100%")
+                .col-4
+                .col-6
+                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", name="btn") Tạo biên lai
+                    a.btn.btn-secondary.btn-lg(href="/bill") Quay lại
+
+            
+    

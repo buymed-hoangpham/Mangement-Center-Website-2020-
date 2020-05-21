@@ -14,7 +14,7 @@ block content
                     .alert.alert-danger=errorMessage
                 if successMessage
                     .alert.alert-success=successMessage
-        .row(style=".error: {color: red; font-style: italic;}")
+        .row
             if(type=="L")
                 form.form.container-fluid#form-pointLanguage(method="post", action="/point/view/update")
                     .form-row

@@ -1,0 +1,43 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        h1 Chứng chỉ: 
+            span(style="color: blue") #{bill.id}
+        if errorMessage
+            .alert.alert-danger=errorMessage
+        if successMessage
+            .alert.alert-success=successMessage
+        form.form.container-fluid(method="post", action='/bill/view')
+            .form-row
+                .form-group.col-12
+                    label(for="id") ID hóa đơn: 
+                    input.form-control#id(type="text", name="id", value= bill.id, readonly)
+            .form-row
+                .form-group.col-12
+                    label(for="studentid") ID học viên: 
+                    input.form-control#studentid(type="text", name="studentid", value= bill.studentid, readonly)
+            .form-row
+                .form-group.col-12
+                    label(for="studentname") Tên học viên: 
+                    input.form-control#studentname(type="text", name="studentname", value= student.studentname, readonly )
+            .form-row
+                .form-group.col-12
+                    label(for="address") Địa chỉ: 
+                    input.form-control#address(type="text", name="address", value= student.address, readonly )
+            .form-row
+                .form-group.col-6
+                    label(for="money") Số tiền: 
+                    input.form-control#money(type="text", name="money", value= bill.money )
+                .form-group.col-6
+                    label(for="date") Ngày lập: 
+                    input.form-control#date(type="text", name="date", value= moment(bill.date).format('DD-MM-YYYY') )
+            .form-row
+                .form-group.col-12
+                    label(for="reason") Lý do thu: 
+                    input.form-control#reason(type="text", name="reason", value= bill.reason )
+            .form-row(style="bottom: 10px; width: 100%")
+                .col-4
+                .col-6
+                    button.btn.btn-primary.my-2.mr-4.d-inline-block.btn-lg(style="width: 200px", type="submit", name="btn") Cập nhật
+                    a.btn.btn-secondary.btn-lg(href="/bill") Quay lại
+            

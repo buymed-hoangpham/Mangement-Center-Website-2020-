@@ -20,6 +20,7 @@ const teacherRouter = require('./routes/teacher.route');
 const studentRouter = require('./routes/student.route');
 const pointRouter = require('./routes/point.route');
 const certiRouter = require('./routes/certi.route');
+const billRouter = require('./routes/bill.route');
 
 const requireAuthMiddleware = require('./middlewares/auth.middleware');
 
@@ -40,6 +41,7 @@ app.use('/teacher', requireAuthMiddleware, teacherRouter);
 app.use('/student', requireAuthMiddleware, studentRouter);
 app.use('/point', requireAuthMiddleware, pointRouter);
 app.use('/certi', requireAuthMiddleware, certiRouter);
+app.use('/bill', requireAuthMiddleware, billRouter);
 
 app.listen(process.env.PORT, () => {
     console.log("Server listening on port " + process.env.PORT);

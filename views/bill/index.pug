@@ -1,0 +1,30 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        .row.d-flex.justify-content-between.align-items-center
+            .col-9.col-sm-9
+                h1 Danh sách biên lai
+            .col-3.col-sm-3
+                a.d-block.mr-4.p-1.btn.btn-info.text-center(href="/bill/create", style="font-size: 20px") Tạo biên lai
+        .row 
+            .table-responsive
+                table.table.table-hover
+                    thead.thead-light.text-center
+                        th STT
+                        th.text-left ID Biên lai
+                        th.text-left Họ tên người nộp
+                        th
+                        th
+                    tbody.text-center
+                        each bill in bills
+                            tr
+                                td.text-center.align-middle=++count
+                                td.text-left.align-middle(style="max-width: 130px; overflow-wrap: break-word; word-wrap: break-word;")=bill.id
+                                each student in students
+                                    if(student.id == bill.studentid)
+                                        td.text-left.align-middle=student.studentname
+                                td(style="width: 100px")
+                                    a.btn.btn-outline-primary(href=`/bill/view/${bill.id}`) Xem
+                                td(style="width: 100px")
+                                    a.btn.btn-outline-danger(href=`/bill/delete/${bill.id}`) Xóa
+

@@ -1,0 +1,21 @@
+extends ../layouts/common
+block content
+    .container-fluid
+        h1 Tạo lớp:
+        if errorMessage
+            .alert.alert-danger=errorMessage
+        if successMessage
+            .alert.alert-success=successMessage
+        form.form.container-fluid(method="post", action="/class/addStudent")
+            .form-row
+                .form-group.col-12
+                    label(for="student") Chọn học viên: 
+                    select.custom-select#student(name="student", required)
+                        option(value="") --Chọn học viên--
+                        each student in students
+                            option(value= student.id)= `Id: ${student.id} - Tên: ${student.studentname}`
+            .form-row
+                .col-4
+                .col-8.form-group
+                    button.btn.btn-primary.btn-lg(style="width: 200px") Thêm
+                    a.btn.btn-secondary.btn-lg(href="/class") Quay lại

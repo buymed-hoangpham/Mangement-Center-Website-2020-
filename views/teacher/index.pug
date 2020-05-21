@@ -23,6 +23,11 @@ block content
                         th
                     tbody.text-center
                         each oneteacher in teachers
+                            -var classesTeachingArr=[]
+                            each oneclass in classes
+                                if(oneteacher.classId.indexOf(oneclass.id) != -1)
+                                    -classesTeachingArr.push(oneclass.classname)
+                            -var classesTeachingStr = classesTeachingArr.join(' & ')
                             tr
                                 td.text-center.align-middle= ++count
                                 td.align-middle
@@ -39,9 +44,7 @@ block content
                                 td.align-middle= moment(oneteacher.birthday).format('DD-MM-YYYY')
                                 td.align-middle= oneteacher.phone
                                 td.align-middle= oneteacher.address
-                                each oneclass in classes
-                                    if(oneteacher.classId == oneclass.id)
-                                        td.align-middle= oneclass.classname
+                                td.align-middle= classesTeachingStr
                                 td.align-middle(style="width: 100px")
                                     a.btn.btn-outline-primary(href=`/teacher/view/${oneteacher.id}`) Xem
                                 td.align-middle(style="width: 100px")

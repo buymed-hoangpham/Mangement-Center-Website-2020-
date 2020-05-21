@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const shortid = require('shortid');
 
 const certiSchema = new Schema({
+        _id: {
+            type: String,
+            default: shortid.generate()
+        },
         studentid: String,
         type: String,
         cefr: String,

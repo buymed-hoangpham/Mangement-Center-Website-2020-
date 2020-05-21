@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
+        _id: String,
         studentname: String,
         gender: Boolean,
         birthday: Date,

@@ -19,13 +19,16 @@ block content
                         th
                     tbody.text-center
                         each oneclass in classes
+                            -var teachersTeachingArr=[]
+                            each teacher in teachers
+                                if(teacher.classId.indexOf(oneclass.id) != -1)
+                                    -teachersTeachingArr.push(teacher.teachername)
+                            -var teacherTeachingStr = teachersTeachingArr.join(' & ')
                             tr
                                 td.text-center.align-middle=++count
                                 td.text-left.align-middle(style="max-width: 130px; overflow-wrap: break-word; word-wrap: break-word;")=oneclass.id
                                 td.text-left.align-middle=oneclass.classname
-                                each teacher in teachers
-                                    if(oneclass.id == teacher.classId)
-                                        td.text-left.align-middle=teacher.teachername
+                                td.text-left.align-middle= teacherTeachingStr
                                 td.align-middle=oneclass.number
                                 td(style="width: 100px")
                                     a.btn.btn-outline-primary(href=`/class/view/${oneclass.id}`) Xem

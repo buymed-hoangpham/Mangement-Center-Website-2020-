@@ -1,4 +1,5 @@
 const cloudinary = require('cloudinary').v2;
+const shortid = require('shortid');
 const moment = require('moment');
 const Student = require('../models/student.model');
 const Class = require('../models/class.model');
@@ -12,7 +13,6 @@ module.exports.render = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
-
     res.render('./student/index', {
         students: students.slice(begin, end),
         count,
@@ -27,7 +27,7 @@ module.exports.render = async(req, res) => {
 module.exports.delete = async(req, res) => {
     let student = student.findById(req.params.id);
     let oldavatarId = student.avatar.split('/').pop();
-    let deleteOldAvatar = await cloudinary.uploader.destroy("management-center/studentAvatar/" + oldavatarId );
+    await cloudinary.uploader.destroy("management-center/studentAvatar/" + oldavatarId );
     await student.remove();
     res.redirect('back');
 };
@@ -40,12 +40,14 @@ module.exports.create = async(req, res) => {
 };
 
 module.exports.postCreate = async(req, res) => {
+    let _id = shortid.generate();
     let classes = await Class.find();
     let file = req.file.path;
     let avatarId = file.split('\\').pop();
     let uploading = await cloudinary.uploader.upload(file, { public_id: "management-center/studentAvatar/" + avatarId });
     let avatar = await cloudinary.url(uploading.public_id);
     let data = {
+        _id,
         studentname: req.body.studentname,
         gender: req.body.gender,
         birthday: req.body.birthday,
@@ -75,10 +77,15 @@ module.exports.postCreate = async(req, res) => {
 module.exports.view = async(req, res) => {
     let student = await Student.findById(req.params.id);
     let classes = await Class.find();
-    let classTeaching = await Class.findById(student.classId);
+    let classStudyingArr = [];
+    for(let oneclass of classes) {
+        if(student.classId.indexOf(oneclass.id) != -1)
+            classStudyingArr.push(oneclass.classname)
+    }
+    classStudyingStr = classStudyingArr.join(' & ');
     res.render('./student/view', {
         student,
-        classTeaching,
+        classStudyingStr,
         classes,
         moment
     });

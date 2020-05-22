@@ -13,13 +13,15 @@ module.exports.render = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
+    let placeholderSearch = 'Search...'
     res.render('./class/index', {
         classes: classes.slice(begin, end),
         teachers,
         count,
         titleLink: 'class',
         pageSize,
-        currentPage
+        currentPage,
+        placeholderSearch
     });
 };
 
@@ -39,6 +41,7 @@ module.exports.view = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
+    let placeholderSearch = 'Search...';
 
     for(let teacher of teachers) {
         if(teacher.classId.indexOf(thisClass.id) != -1)
@@ -55,7 +58,8 @@ module.exports.view = async(req, res) => {
         count,
         titleLink: 'class/view/' + req.params.id,
         pageSize,
-        currentPage
+        currentPage,
+        placeholderSearch
     });
 };
 
@@ -178,4 +182,96 @@ module.exports.postAddStudent = async(req, res) => {
         students,
         successMessage
     })
+}
+
+module.exports.search = async (req, res) => {
+    var q = req.query.q;
+    let classes = await Class.find();
+    let teachers = await Teacher.find();
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(classes.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+    let placeholderSearch = q;
+
+    let matchedClassed = classes.filter( oneclass => {
+        return oneclass.classname.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    })
+    if(!matchedClassed.length) {
+        placeholderSearch = 'Không tìm thấy!';
+        res.render('./class/index', {
+            classes: classes.slice(begin, end),
+            teachers,
+            count,
+            titleLink: 'class',
+            pageSize,
+            currentPage,
+            placeholderSearch
+        });
+        return;
+    }
+    res.render('./class/index', {
+        classes: matchedClassed.slice(begin, end),
+        teachers,
+        count,
+        titleLink: 'class',
+        pageSize,
+        currentPage,
+        placeholderSearch
+    });
+}
+
+module.exports.searchStudent = async (req, res) => {
+    let q = req.query.q;
+    let thisClass = await Class.findById(req.cookies.thisClass._id);
+    let students = await Student.find();
+    let teachers = await Teacher.find();
+    let teachersTeachingArr = [];
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(students.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+    let placeholderSearch = q;
+
+    for(let teacher of teachers) {
+        if(teacher.classId.indexOf(thisClass.id) != -1)
+            teachersTeachingArr.push(teacher.teachername)
+    }
+    teachersTeachingArr = teachersTeachingArr.join(' & ');
+    let matchedStudents = students.filter( student => {
+        return student.studentname.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    })
+    if(!matchedStudents.length) {
+        placeholderSearch = 'Không tìm thấy!';
+        res.render('./class/view', {
+            teachersTeachingArr,
+            thisClass,
+            teachers,
+            moment,
+            students: students.slice(begin, end),
+            count,
+            titleLink: 'class/view/' + req.params.id,
+            pageSize,
+            currentPage,
+            placeholderSearch
+        });
+        return;
+    }
+    res.render('./class/view', {
+        teachersTeachingArr,
+        thisClass,
+        teachers,
+        moment,
+        students: matchedStudents.slice(begin, end),
+        count,
+        titleLink: 'class/view/' + req.params.id,
+        pageSize,
+        currentPage,
+        placeholderSearch
+    });
+
 }

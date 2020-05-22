@@ -13,6 +13,8 @@ module.exports.render = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
+    let placeholderSearch = 'Search...';
+
     res.render('./student/index', {
         students: students.slice(begin, end),
         count,
@@ -20,7 +22,8 @@ module.exports.render = async(req, res) => {
         pageSize,
         currentPage,
         classes,
-        moment
+        moment,
+        placeholderSearch
     });
 };
 
@@ -57,7 +60,10 @@ module.exports.postCreate = async(req, res) => {
         classId: req.body.class,
         avatar
     };
-
+    let classStudy = await Class.findById(req.body.class);
+    
+    classStudy.number += 1;
+    await Class.findByIdAndUpdate( req.body.class, { number: classStudy.number });
     if(!await Student.create(data)) {
         let error = 'Thêm học viên không thành công!';
         res.render('./student/create', {
@@ -146,3 +152,44 @@ module.exports.postView = async(req, res) => {
         moment
     });
 };
+
+module.exports.search = async (req, res) => {
+    let q = req.query.q;
+    let students = await Student.find();
+    let classes = await Class.find();
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(students.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+    let placeholderSearch = q;
+    let matchedStudents = students.filter( student => {
+        return student.studentname.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    })
+    
+    if(!matchedStudents.length) {
+        placeholderSearch = 'Không tìm thấy!';
+        res.render('./student/index', {
+            students: students.slice(begin, end),
+            count,
+            titleLink: 'student',
+            pageSize,
+            currentPage,
+            classes,
+            moment,
+            placeholderSearch
+        });
+        return;
+    }
+    res.render('./student/index', {
+        students: matchedStudents.slice(begin, end),
+        count,
+        titleLink: 'student',
+        pageSize,
+        currentPage,
+        classes,
+        moment,
+        placeholderSearch
+    });
+}

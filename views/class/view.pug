@@ -8,11 +8,20 @@ block content
             .col-4.col-sm-4
                 
         .row
-            .col-9.col-sm-9
+            .col-9.col-sm-9.col-sm-9.d-flex.justify-content-between.align-items-center
                 h4.p-0 Giáo viên: 
                     span(style="color: blue")= teachersTeachingArr
                     span.pl-4(style="color: var(--text-color)") Sĩ số:
                     span(style="color: green")=` ${ thisClass.number}`
+                .search-container
+                    form.form(action='/class/searchStudent', method='GET')
+                        .form-row.d-flex.justify-content-between.align-items-center
+                            .input
+                                input(name="id" value=thisClass.id hidden)
+                                input(class="form-control" type="text" placeholder=placeholderSearch aria-label="Search" name="q")
+                            .button
+                                button.btn(type='submit', style="border-radius: 5px; padding: 3px 20px; color: pink; font-size: 24px; border: 0px")
+                                    i.fal.fa-search
             .col-3.col-sm-3
                 a.d-block.mr-4.btn.btn-info.p-1.text-center(href="/class/addStudent", style="font-size: 20px") Thêm học viên
         .row 

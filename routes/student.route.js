@@ -10,5 +10,6 @@ router.get('/create', studentController.create);
 router.post('/create', upload.single('avatar'), studentController.postCreate);
 router.get('/view/:id', studentController.view);
 router.post('/view', upload.single('avatar'), studentController.postView);
+router.get('/search', studentController.search);
 
 module.exports = router;

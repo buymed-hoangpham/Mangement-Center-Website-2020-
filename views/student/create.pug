@@ -8,7 +8,7 @@ block content
             .alert.alert-success=success
         form.form.container-fluid(method="post", action="/student/create", enctype="multipart/form-data")
             .form-group.row
-                label.col-2(for="studentname") Họ tên giáo viên: 
+                label.col-2(for="studentname") Họ tên học viên: 
                 .col-10
                     input.form-control#studentname(type="text", name="studentname", placeholder="Nhập họ tên học viên viên...", required)
             .form-group.row      
@@ -30,7 +30,7 @@ block content
                 .col-10
                     input.form-control#phone(type="text", name="phone", placeholder="Nhập số điện thoại...", required)
             .form-group.row
-                label.col-2(for="email") Số điện thoại: 
+                label.col-2(for="email") Email: 
                 .col-10
                     input.form-control#email(type="email", name="email", placeholder="Nhập số email...", required)        
             .form-group.row

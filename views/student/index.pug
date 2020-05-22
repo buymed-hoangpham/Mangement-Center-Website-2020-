@@ -2,8 +2,16 @@ extends ../layouts/common
 block content
     .container-fluid
         .row.d-flex.justify-content-between.align-items-center
-            .col-9.col-sm-9
+            .col-9.col-sm-9.d-flex.justify-content-between.align-items-center
                 h1 Danh sách học viên
+                .search-container
+                    form.form(action='/student/search', method='GET')
+                        .form-row.d-flex.justify-content-between.align-items-center
+                            .input
+                                input(class="form-control" type="text" placeholder=placeholderSearch aria-label="Search" name="q")
+                            .button
+                                button.btn(type='submit', style="border-radius: 5px; padding: 3px 20px; color: pink; font-size: 24px; border: 0px")
+                                    i.fal.fa-search
             .col-3.col-sm-3
                 a.d-block.mr-4.btn.btn-info.p-1.text-center(href="/student/create", style="font-size: 20px") Thêm học viên
         .row 
@@ -24,6 +32,11 @@ block content
                         th
                     tbody.text-center
                         each student in students
+                            -var classStudyingArr=[]
+                            each oneclass in classes
+                                if(student.classId.indexOf(oneclass.id) != -1)
+                                    -classStudyingArr.push(oneclass.classname)
+                            -var classStudyingStr = classStudyingArr.join(' & ')
                             tr
                                 td.text-center.align-middle= ++count
                                 td.align-middle
@@ -41,9 +54,7 @@ block content
                                 td.align-middle= student.phone
                                 td.align-middle= student.email
                                 td.align-middle= student.address
-                                each oneclass in classes
-                                    if(student.classId == oneclass.id)
-                                        td.align-middle= oneclass.classname
+                                td.align-middle= classStudyingStr
                                 td.align-middle(style="width: 100px")
                                     a.btn.btn-outline-primary(href=`/student/view/${student.id}`) Xem
                                 td.align-middle(style="width: 100px")

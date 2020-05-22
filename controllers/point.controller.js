@@ -7,7 +7,7 @@ const Teacher = require('../models/teacher.model');
 module.exports.render = async(req, res) => {
     let classes = await Class.find();
     let students = await Student.find();
-
+    
     res.render('./point/index', {
         classes,
         students,

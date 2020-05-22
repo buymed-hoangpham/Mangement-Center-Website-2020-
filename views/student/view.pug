@@ -47,7 +47,7 @@ block content
                 .form-group.col-12
                     label(for='class') Học lớp: 
                     select#class.form-control(name="class")
-                        option(value=student.classId, style="color: red")= classTeaching.classname
+                        option(value=student.classId, style="color: red")= classStudyingStr
                         each oneclass in classes
                             option(value=oneclass.id)= oneclass.classname
             .form-row

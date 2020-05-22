@@ -1,4 +1,5 @@
 const cloudinary = require('cloudinary').v2;
+const shortid = require('shortid');
 const moment = require('moment');
 const Student = require('../models/student.model');
 const Class = require('../models/class.model');
@@ -12,6 +13,7 @@ module.exports.render = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
+    let placeholderSearch = 'Search...';
 
     res.render('./student/index', {
         students: students.slice(begin, end),
@@ -20,14 +22,15 @@ module.exports.render = async(req, res) => {
         pageSize,
         currentPage,
         classes,
-        moment
+        moment,
+        placeholderSearch
     });
 };
 
 module.exports.delete = async(req, res) => {
     let student = student.findById(req.params.id);
     let oldavatarId = student.avatar.split('/').pop();
-    let deleteOldAvatar = await cloudinary.uploader.destroy("management-center/studentAvatar/" + oldavatarId );
+    await cloudinary.uploader.destroy("management-center/studentAvatar/" + oldavatarId );
     await student.remove();
     res.redirect('back');
 };
@@ -40,12 +43,14 @@ module.exports.create = async(req, res) => {
 };
 
 module.exports.postCreate = async(req, res) => {
+    let _id = shortid.generate();
     let classes = await Class.find();
     let file = req.file.path;
     let avatarId = file.split('\\').pop();
     let uploading = await cloudinary.uploader.upload(file, { public_id: "management-center/studentAvatar/" + avatarId });
     let avatar = await cloudinary.url(uploading.public_id);
     let data = {
+        _id,
         studentname: req.body.studentname,
         gender: req.body.gender,
         birthday: req.body.birthday,
@@ -55,7 +60,10 @@ module.exports.postCreate = async(req, res) => {
         classId: req.body.class,
         avatar
     };
-
+    let classStudy = await Class.findById(req.body.class);
+    
+    classStudy.number += 1;
+    await Class.findByIdAndUpdate( req.body.class, { number: classStudy.number });
     if(!await Student.create(data)) {
         let error = 'Thêm học viên không thành công!';
         res.render('./student/create', {
@@ -75,10 +83,15 @@ module.exports.postCreate = async(req, res) => {
 module.exports.view = async(req, res) => {
     let student = await Student.findById(req.params.id);
     let classes = await Class.find();
-    let classTeaching = await Class.findById(student.classId);
+    let classStudyingArr = [];
+    for(let oneclass of classes) {
+        if(student.classId.indexOf(oneclass.id) != -1)
+            classStudyingArr.push(oneclass.classname)
+    }
+    classStudyingStr = classStudyingArr.join(' & ');
     res.render('./student/view', {
         student,
-        classTeaching,
+        classStudyingStr,
         classes,
         moment
     });
@@ -139,3 +152,44 @@ module.exports.postView = async(req, res) => {
         moment
     });
 };
+
+module.exports.search = async (req, res) => {
+    let q = req.query.q;
+    let students = await Student.find();
+    let classes = await Class.find();
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(students.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+    let placeholderSearch = q;
+    let matchedStudents = students.filter( student => {
+        return student.studentname.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    })
+    
+    if(!matchedStudents.length) {
+        placeholderSearch = 'Không tìm thấy!';
+        res.render('./student/index', {
+            students: students.slice(begin, end),
+            count,
+            titleLink: 'student',
+            pageSize,
+            currentPage,
+            classes,
+            moment,
+            placeholderSearch
+        });
+        return;
+    }
+    res.render('./student/index', {
+        students: matchedStudents.slice(begin, end),
+        count,
+        titleLink: 'student',
+        pageSize,
+        currentPage,
+        classes,
+        moment,
+        placeholderSearch
+    });
+}

@@ -1,3 +1,4 @@
+const shortid = require('shortid');
 const moment = require('moment');
 const Class = require('../models/class.model');
 const Student = require('../models/student.model');
@@ -81,10 +82,12 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.postCreate = async (req, res) => {
+    let _id = shortid.generate();
     let classes = await Class.find();
     let students = await Student.find()
     let successMessage = 'Tạo biên lai thành công!'
     let data = {
+        _id,
         studentid: req.body.student,
         money: req.body.money,
         reason: req.body.reason,

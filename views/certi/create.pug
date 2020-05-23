@@ -23,7 +23,7 @@ block content
                 .form-group.col-6
                     label(for="student") Chọn học viên: 
                     select.custom-select#student(name="student")
-                        option --Chọn học viên--
+                        option(data-pub="") --Chọn học viên--
                         each student in students
                             option(value=student.id, data-pub= student.classId)= `Id: ${student.id} - Tên: ${student.studentname}`
             .form-row(style="bottom: 10px; width: 100%")

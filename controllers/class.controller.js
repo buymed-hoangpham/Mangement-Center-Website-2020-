@@ -26,6 +26,29 @@ module.exports.render = async(req, res) => {
 };
 
 module.exports.delete = async(req, res) => {
+    let students = await Student.find();
+    let teachers = await Teacher.find();
+
+    students = students.filter(student => student.classId.indexOf(req.params.id) !== -1 );
+    teachers = teachers.filter(teacher => teacher.classId.indexOf(req.params.id) !== -1 );
+    for(let student of students) {
+        if(student.classId === req.params.id) {
+            student.classId = student.classId.replace(`${req.params.id}`, '');
+        }
+        (student.classId.indexOf(req.params.id) == 0) 
+        ? student.classId = student.classId.replace(`${req.params.id},`, '')
+        : student.classId = student.classId.replace(`,${req.params.id}`, '');
+        await student.save();
+    }
+    for(let teacher of teachers) {
+        if(teacher.classId === req.params.id) {
+            teacher.classId = teacher.classId.replace(`${req.params.id}`, '');
+        }
+        (teacher.classId.indexOf(req.params.id) == 0) 
+        ? teacher.classId = teacher.classId.replace(`${req.params.id},`, '')
+        : teacher.classId = teacher.classId.replace(`,${req.params.id}`, '');
+        await teacher.save();
+    } 
     await Class.findByIdAndRemove(req.params.id);
     res.redirect('back');
 };
@@ -124,7 +147,11 @@ module.exports.postCreate = async (req, res) => {
         await Class.create(data);
         let classStudy = await Class.findOne({ classname: classname });
         let findTeacher = await Teacher.findById(teacherId);
-        findTeacher.classId += `,${classStudy.id}`;
+        if(findTeacher.classId == '') {
+            findTeacher.classId = classStudy.id;
+        }else {
+            findTeacher.classId += `,${classStudy.id}`;
+        }
         await Teacher.findByIdAndUpdate(teacherId, { classId: findTeacher.classId });
         for(var i = 0; i < arrOption.length; i++) {
             arrStudentId.push(arrOption[i].replace('Id: ', '').split(' - Tên: ').shift());

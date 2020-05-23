@@ -1,3 +1,4 @@
+const shortid = require('shortid');
 const moment = require('moment')
 const Class = require('../models/class.model');
 const Student = require('../models/student.model');
@@ -43,6 +44,7 @@ module.exports.create = async(req, res) => {
 }
 
 module.exports.postCreate = async (req, res) => {
+    let _id = shortid.generate();
     let type = req.body.type;
     let classes = await Class.find();
     let students = await Student.find();
@@ -60,7 +62,17 @@ module.exports.postCreate = async (req, res) => {
             })
             return;
         }
+        if(point.cefr == 'f') {
+            let errorMessage = 'Học viên không đạt điểm đậu! Không thể tạo chứng chỉ!'
+            res.render('./certi/create', {
+                students,
+                classes,
+                errorMessage
+            })
+            return;
+        }
         let data = {
+            _id,
             studentid: req.body.student, 
             cefr: point.cefr,
             type,
@@ -87,7 +99,17 @@ module.exports.postCreate = async (req, res) => {
             })
             return;
         }
+        if(point.cefr == 'f') {
+            let errorMessage = 'Học viên không đạt điểm đậu! Không thể tạo chứng chỉ!'
+            res.render('./certi/create', {
+                students,
+                classes,
+                errorMessage
+            })
+            return;
+        }
         let data = {
+            _id,
             studentid: req.body.student, 
             cefr: point.cefr,
             type,

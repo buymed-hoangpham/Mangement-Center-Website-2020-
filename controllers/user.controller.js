@@ -1,4 +1,3 @@
-const cloudinary = require('cloudinary').v2;
 const User = require('../models/user.model');
 
 module.exports.change = (req, res) => {

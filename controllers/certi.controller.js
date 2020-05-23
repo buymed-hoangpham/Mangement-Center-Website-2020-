@@ -1,3 +1,4 @@
+const shortid = require('shortid');
 const moment = require('moment')
 const Class = require('../models/class.model');
 const Student = require('../models/student.model');
@@ -14,6 +15,7 @@ module.exports.render = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
+    let placeholderSearch = 'Search...';
 
     res.render('./certi/index', {
         certies: certies.slice(begin, end),
@@ -21,7 +23,8 @@ module.exports.render = async(req, res) => {
         count,
         titleLink: 'certi',
         pageSize,
-        currentPage
+        currentPage,
+        placeholderSearch
     })
 }
 
@@ -41,6 +44,7 @@ module.exports.create = async(req, res) => {
 }
 
 module.exports.postCreate = async (req, res) => {
+    let _id = shortid.generate();
     let type = req.body.type;
     let classes = await Class.find();
     let students = await Student.find();
@@ -58,7 +62,17 @@ module.exports.postCreate = async (req, res) => {
             })
             return;
         }
+        if(point.cefr == 'f') {
+            let errorMessage = 'Học viên không đạt điểm đậu! Không thể tạo chứng chỉ!'
+            res.render('./certi/create', {
+                students,
+                classes,
+                errorMessage
+            })
+            return;
+        }
         let data = {
+            _id,
             studentid: req.body.student, 
             cefr: point.cefr,
             type,
@@ -85,7 +99,17 @@ module.exports.postCreate = async (req, res) => {
             })
             return;
         }
+        if(point.cefr == 'f') {
+            let errorMessage = 'Học viên không đạt điểm đậu! Không thể tạo chứng chỉ!'
+            res.render('./certi/create', {
+                students,
+                classes,
+                errorMessage
+            })
+            return;
+        }
         let data = {
+            _id,
             studentid: req.body.student, 
             cefr: point.cefr,
             type,
@@ -129,4 +153,49 @@ module.exports.view = async (req, res) => {
         })
         return;
     }
+}
+
+module.exports.search = async (req, res) => {
+    let q = req.query.q;
+    let certies = await Certi.find();
+    let students = await Student.find();
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(certies.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+    let placeholderSearch = q;
+    let matchedStudents = students.filter( student => {
+        return student.studentname.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    })
+    let idMatchedStudents = matchedStudents.map( student => {
+        return student.id;
+    })
+    let matchedCerties = certies.filter( certi => {
+        return idMatchedStudents.indexOf(certi.studentid) !== -1;
+    })
+
+    if(!matchedCerties.length) {
+        placeholderSearch = 'Không tìm thấy!';
+        res.render('./certi/index', {
+            certies: certies.slice(begin, end),
+            students,
+            count,
+            titleLink: 'certi',
+            pageSize,
+            currentPage,
+            placeholderSearch
+        })
+        return;
+    }
+    res.render('./certi/index', {
+        certies: matchedCerties.slice(begin, end),
+        students,
+        count,
+        titleLink: 'certi',
+        pageSize,
+        currentPage,
+        placeholderSearch
+    })
 }

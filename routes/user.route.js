@@ -3,6 +3,6 @@ const router = express.Router();
 const userController = require('../controllers/user.controller');
 
 router.get('/', userController.change);
-router.post('/', userController.postChange);
+router.post('/change', userController.postChange);
 
 module.exports = router;

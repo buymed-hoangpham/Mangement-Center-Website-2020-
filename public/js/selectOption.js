@@ -8,8 +8,9 @@ $('#type').on('change', function(e) {
 
 $('#class').on('change', function(e) {
     let selectedClass = $(this).children("option:selected").val();
-    console.log(selectedClass);
     $("#student > option").hide();
     $('select option:contains("--Chọn học viên--")').prop('selected',true);
-    $("#student > option").filter(function(){return $(this).data('pub').includes(selectedClass) == true}).show();
+    $("#student > option").filter(function(){
+        return $(this).data('pub').indexOf(selectedClass) !== -1
+    }).show();
 });     

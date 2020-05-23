@@ -21,12 +21,12 @@ block content
                             input#gender.form-control(type='text', name="gender", value="Nam") 
                     .form-group
                         label(for='birthday') Ngày sinh:
-                        input#birthday.form-control(type='date', name="birthday", value= moment(teacher.birthday).format('DD-MM-YYYY')) 
+                        input#birthday.form-control(type='text', name="birthday", value= moment(teacher.birthday).format('DD-MM-YYYY')) 
                 .form-group.col-5.form
                     .form-group.row
                         .col-3
                         .col-9
-                            img.rounded-circle(src=teacher.avatar, width="200px")
+                            img.rounded-circle(src=teacher.avatar, width="200px", height="200px")
                     .form-group.row
                         .col-3
                             label.ml-3(for="avatar") Thay ảnh:
@@ -43,7 +43,7 @@ block content
                 .form-group.col-6
                     label(for='class') Dạy lớp: 
                     select#class.form-control(name="class")
-                        option(value=teacher.classId, style="color: red")= classTeaching.classname
+                        option(value= idClasesTeaching, style="color: red")= nameClassesTeaching
                         each oneclass in classes
                             option(value=oneclass.id)= oneclass.classname
             .form-row

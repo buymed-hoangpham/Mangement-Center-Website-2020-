@@ -1,4 +1,50 @@
 extends ./layouts/common
 block content
     .container-fluid
-        h1.mt-4.ml-3 Trang điều khiển
+        .row
+            .col-12
+                h1.mt-4.ml-3 Trang điều khiển
+        .row(style="background-color: #FFF; shadow-box: ; height: 150px; margin: 10px 0px; border-radius: 2px; box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);")
+            .col-4.col-md-4.col-xl-2.col-sm-4.d-flex.justify-content-center.align-items-center(style="border-right: 2px solid rgba(0, 0, 0, 0.2)")
+                .stat-icon.pr-2.pt-2
+                    i(class="fa fa-university fa-2x", style="color: #4F5F6F")
+                .stat
+                    div(class="name") Lớp
+                    div.text-center(class="value" style="font-size: 24px") #{classes} 
+            .col-4.col-md-4.col-xl-2.col-sm-4.d-flex.justify-content-center.align-items-center(style="border-right: 2px solid rgba(0, 0, 0, 0.2)")
+                .stat-icon.pr-2.pt-2
+                    i(class="fa fa-graduation-cap fa-2x", style="color: #4F5F6F")
+                .stat
+                    div(class="name") Giáo viên
+                    div.text-center(class="value" style="font-size: 24px") #{teachers} 
+            .col-4.col-md-4.col-xl-2.col-sm-4.d-flex.justify-content-center.align-items-center(style="border-right: 2px solid rgba(0, 0, 0, 0.2)")
+                .stat-icon.pr-2.pt-2
+                    i(class="fa fa-users fa-2x", style="color: #4F5F6F")
+                .stat
+                    div(class="name") Học viên 
+                    div.text-center(class="value" style="font-size: 24px") #{students} 
+            .col-4.col-md-4.col-xl-2.col-sm-4.d-flex.justify-content-center.align-items-center(style="border-right: 2px solid rgba(0, 0, 0, 0.2)")
+                .stat-icon.pr-2.pt-2
+                    i(class="fa fa-address-card fa-2x", style="color: #4F5F6F")
+                .stat
+                    div(class="name") Chứng chỉ 
+                    div.text-center(class="value" style="font-size: 24px") #{certies} 
+            .col-4.col-md-4.col-xl-2.col-sm-4.d-flex.justify-content-center.align-items-center(style="border-right: 2px solid rgba(0, 0, 0, 0.2)")
+                .stat-icon.pr-2.pt-2
+                    i(class="fa fa-file-invoice-dollar fa-2x", style="color: #4F5F6F")
+                .stat
+                    div(class="name") Biên lai 
+                    div.text-center(class="value" style="font-size: 24px") #{bills} 
+            .col-4.col-md-4.col-xl-2.col-sm-4.d-flex.justify-content-center.align-items-center(style="border-right: 2px solid rgba(0, 0, 0, 0.2)")
+                .stat-icon.pr-2.pt-2
+                    i(class="fa fa-chart-line fa-2x", style="color: #4F5F6F")
+                .stat
+                    div(class="name") Doanh thu 
+                    div.text-center(class="value" style="font-size: 18px")= `${amount} vnd`
+        .row.flex-row
+            .col-12.col-sm-12.col-md-12.col-lg-12.col-xl-5
+                iframe(style='background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);', width='520', height='480', src='https://charts.mongodb.com/charts-mangement-center-website--mstbq/embed/charts?id=47fb8a60-eb70-4348-b6a6-74e901bed52b&theme=light')
+            .col-12.col-sm-12.col-md-12.col-lg-12.col-xl-7
+                iframe(style='background: #FFFFFF;border: none;border-radius: 2px;box-shadow: 0 2px 10px 0 rgba(70, 76, 79, .2);', width='725', height='480', src='https://charts.mongodb.com/charts-mangement-center-website--mstbq/embed/charts?id=c4fe782e-7680-4897-87e2-e7f6a062d145&theme=light')
+
+

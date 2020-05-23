@@ -1,0 +1,18 @@
+html
+    head
+        link(href='https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap', rel='stylesheet')
+        link(rel="stylesheet" ,href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" )
+        style.
+            body{background:#607D8B;color:#fff; font-family: 'Lato', sans-serif;}
+            .wrapper{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%}
+            h2{font-size:4rem;font-style:italic;font-weight:bold;margin-bottom:2.5rem}
+            h3{font-size:3rem;font-style:italic;font-weight:bold;margin-bottom:2rem}
+            p {font-size:1.2rem}
+            p a{padding:1rem 1.5rem !important; font-size: 1.2rem !important;}
+    body
+        .wrapper
+            h2=errors
+            h3 Sorry, Something went wrong!
+            p We are currently trying to fix the problem.
+            p
+                a.btn.btn-outline-light(href="/") Home

@@ -94,8 +94,8 @@ module.exports.postView = async (req, res) => {
         let theory =  parseInt(req.body.theory);
         let practice =  parseInt(req.body.practice);
         let obs = (theory + practice) / 2;
-        let cefr = (obs == 9) ? "c2" : (obs >= 7.5) ? "c1" : (obs >= 6) ? "b2" : (obs >= 4.5) ? "b1" : "f";
-        let data = { theory, practice, obs, cefr, userid: studentId, classid: classId, type };
+        let passed = ( theory < 5 || practice < 5 ) ? false : true;
+        let data = { theory, practice, obs, passed, userid: studentId, classid: classId, type };
 
         if(!pointIT) {
             await PointIT.create(data);
@@ -189,7 +189,7 @@ module.exports.postView = async (req, res) => {
 
 module.exports.view = async (req, res) => {
     let student = await Student.findById(req.params.id);
-    let findClass = await Class.findById(student.classId);
+    let findClass = await Class.findById(req.cookies.thisClass._id);
 
     if(findClass.type == "T") {
         let pointIT = await PointIT.findOne({ userid: req.params.id, classid: findClass.id });

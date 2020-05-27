@@ -91,8 +91,8 @@ module.exports.postView = async (req, res) => {
     let successMessage = 'Cập nhật thành công!';
 
     if(type=="T") {
-        let theory =  parseInt(req.body.theory);
-        let practice =  parseInt(req.body.practice);
+        let theory =  parseFloat(req.body.theory);
+        let practice =  parseFloat(req.body.practice);
         let obs = (theory + practice) / 2;
         let passed = ( theory < 5 || practice < 5 ) ? false : true;
         let data = { theory, practice, obs, passed, userid: studentId, classid: classId, type };
@@ -113,10 +113,10 @@ module.exports.postView = async (req, res) => {
         return;
     }
     else {
-        let speaking = parseInt(req.body.speaking);
-        let listening =  parseInt(req.body.listening);
-        let reading =  parseInt(req.body.reading);
-        let writing =  parseInt(req.body.writing);
+        let speaking = parseFloat(req.body.speaking);
+        let listening =  parseFloat(req.body.listening);
+        let reading =  parseFloat(req.body.reading);
+        let writing =  parseFloat(req.body.writing);
         let obs = (speaking + speaking + reading + writing) / 4;
         let cefr = (obs == 9) ? "c2" : (obs >= 7.5) ? "c1" : (obs >= 6) ? "b2" : (obs >= 4.5) ? "b1" : "f"; 
         let data = { speaking, listening, reading, writing, obs, cefr, userid: studentId, classid: classId, type };

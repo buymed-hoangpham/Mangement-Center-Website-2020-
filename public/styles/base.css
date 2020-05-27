@@ -64,12 +64,32 @@ td, th {
 }
 
     /* Search input */
-@media only screen and (max-width: 1024px) {
+@media (max-width: 1024px) {
     .search-input {
         width: 120px;
     }
-    .btn {
-        /* padding: 0  !important; */
-    }
+}
 
+    /* Print mode */
+#signed {
+    display: none;
+}
+
+#date-form {
+    display: none;
+}
+
+@media print {
+    .btn, .btn-lg, #sidebar-wrapper, .navbar, .label {
+        display:none !important;
+    }
+    .bill-content {
+        background-color: pink;
+    }
+    #signed {
+        display: flex;
+    }
+    #date-form {
+        display: flex;
+    }
 }

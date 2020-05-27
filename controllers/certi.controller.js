@@ -49,7 +49,13 @@ module.exports.render = async(req, res) => {
 }
 
 module.exports.delete = async(req, res) => {
-    await Certi.findByIdAndRemove(req.params.id);
+    let certiIT = await CertiIT.findById(req.params.id);
+    if(certiIT) {
+        await CertiIT.findByIdAndRemove(req.params.id);
+        res.redirect('back');
+        return;
+    }
+    await CertiLanguage.findByIdAndRemove(req.params.id);
     res.redirect('back');
 };
 
@@ -149,9 +155,13 @@ module.exports.postCreate = async (req, res) => {
 }
 
 module.exports.view = async (req, res) => {
-    let certi = await Certi.findById(req.params.id);
+    let certi = await CertiLanguage.findById(req.params.id);
+    if(await CertiIT.findById(req.params.id)) {
+        certi = await CertiIT.findById(req.params.id)
+    }
     let student = await Student.findById(certi.studentid);
     let thisClass = await Class.findById(certi.classid);
+    
     if(certi.type == "T") {
         let point = await PointIT.findOne({ userid: certi.studentid, classid: certi.classid })
         res.render('./certi/view', {

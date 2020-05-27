@@ -1,12 +1,20 @@
 extends ../layouts/common
 block content
-    .container-fluid
-        h1 Chứng chỉ: 
-            span(style="color: blue") #{bill.id}
-        if errorMessage
-            .alert.alert-danger=errorMessage
-        if successMessage
-            .alert.alert-success=successMessage
+    .container-fluid.bill-content
+        .row.d-flex.align-items-center
+            .col-4
+                h1 Biên lai: 
+                    span(style="color: blue") #{bill.id}
+            .col-7.text-right
+                label.label(for="printbtn", style="font-size: 20px") In:
+                button.btn.btn-outline-dark#printbtn(onclick="window.print()", style="padding: 4px 20px; margin-left: 20px")
+                    i(class="fad fa-print fa-2x")
+        .row
+            .col-12
+                if errorMessage
+                    .alert.alert-danger=errorMessage
+                if successMessage
+                    .alert.alert-success=successMessage
         form.form.container-fluid(method="post", action='/bill/view')
             .form-row
                 .form-group.col-12
@@ -35,6 +43,15 @@ block content
                 .form-group.col-12
                     label(for="reason") Lý do thu: 
                     input.form-control#reason(type="text", name="reason", value= bill.reason )
+            .form-row(style="height: 100px")#date-form
+                .col-6
+                .form-group.col-6.text-right
+                    label(style="font-style: italic;") Ngày ... tháng ... năm ...
+            .form-row#signed
+                .form-group.col-6.text-right
+                    label Người học ký tên
+                .form-group.col-6.text-right
+                    label Người lập ký tên
             .form-row(style="bottom: 10px; width: 100%")
                 .col-4
                 .col-6

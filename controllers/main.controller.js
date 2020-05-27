@@ -2,14 +2,17 @@ const Class = require('../models/class.model');
 const Student = require('../models/student.model');
 const Teacher = require('../models/teacher.model');
 const Bill = require('../models/bill.model');
-// const Certi = require('../models/certi.model');
+const CertiIT = require('../models/certiIT.model');
+const CertiLanguage = require('../models/certiLanguage.model');
 
 module.exports.render = async(req, res) => {
     let classes = await Class.countDocuments();
     let students = await Student.countDocuments()
     let teachers = await Teacher.countDocuments();
     let bills = await Bill.countDocuments();
-    // let certies = await Certi.countDocuments();
+    let certiesIT = await CertiIT.countDocuments();
+    let certiesLanguage = await CertiLanguage.countDocuments();
+    let certies = certiesIT + certiesLanguage;
     let amount = await Bill.aggregate([
         { $match: {} },
         { $group: {
@@ -22,7 +25,7 @@ module.exports.render = async(req, res) => {
         students,
         teachers,
         bills,
-        // certies,
+        certies,
         amount: amount[0].total
     });
 };

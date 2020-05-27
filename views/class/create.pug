@@ -19,7 +19,7 @@ block content
                         option(value="L") Ngoại ngữ
                 .form-group.col-6
                     label(for="teachername") Tên giáo viên: 
-                    select.custom-select(name="teachername", required)
+                    select.custom-select(name="teachername")
                         option(value="") --Chọn giáo viên--
                         each teacher in teachers
                             option= `Id: ${teacher.id} - Tên: ${teacher.teachername}`

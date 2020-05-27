@@ -10,19 +10,19 @@ block content
             .form-row
                 .form-group.col-3
                     label(for="type") Chọn loại lớp: 
-                    select.custom-select#type(name="type")
+                    select.custom-select#type(name="type", required)
                         option --Chọn loại--
                         option(value="T") Tin học
                         option(value="L") Ngoại ngữ
                 .form-group.col-3
                     label(for="class") Chọn lớp: 
-                    select.custom-select#class(name="class")
+                    select.custom-select#class(name="class", required)
                         option --Chọn lớp--
                         each oneclass in classes
                             option(value=oneclass.id, data-pub= oneclass.type)= oneclass.classname
                 .form-group.col-6
                     label(for="student") Chọn học viên: 
-                    select.custom-select#student(name="student")
+                    select.custom-select#student(name="student", required)
                         option(data-pub="") --Chọn học viên--
                         each student in students
                             option(value=student.id, data-pub= student.classId)= `Id: ${student.id} - Tên: ${student.studentname}`

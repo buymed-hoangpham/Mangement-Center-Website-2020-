@@ -12,16 +12,16 @@ block content
                     .form-group
                         input.form-control(type="text", name="id", value= student.id, hidden)
                         label(for="studentname") Họ tên học viên: 
-                        input.form-control#studentname(type="text", name="studentname", value= student.studentname)
+                        input.form-control#studentname(type="text", name="studentname", value= student.studentname, required)
                     .form-group
                         label(for='gender') Giới tính:
                         if(student.gender == true)
-                            input#gender.form-control(type='text', name="gender", value="Nữ")
+                            input#gender.form-control(type='text', name="gender", value="Nữ", required)
                         else
-                            input#gender.form-control(type='text', name="gender", value="Nam") 
+                            input#gender.form-control(type='text', name="gender", value="Nam", required) 
                     .form-group
                         label(for='birthday') Ngày sinh:
-                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY')) 
+                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'), required) 
                 .form-group.col-5.form
                     .form-group.row
                         .col-3
@@ -35,18 +35,18 @@ block content
             .form-row
                 .form-group.col-12
                     label(for="address") Địa chỉ: 
-                    textarea.form-control#phone(name="address", rows="3")= student.address
+                    textarea.form-control#phone(name="address", rows="3", required)= student.address
             .form-row
                 .form-group.col-6
                     label(for="phone") Số điện thoại: 
-                    input.form-control#phone(type="text", name="phone", value= student.phone)
+                    input.form-control#phone(type="text", name="phone", value= student.phone, required)
                 .form-group.col-6
                     label(for='email') Email: 
-                    input.form-control#email(type="text", name="email", value= student.email)
+                    input.form-control#email(type="text", name="email", value= student.email, required)
             .form-row
                 .form-group.col-12
                     label(for='class') Học lớp: 
-                    select#class.form-control(name="class")
+                    select#class.form-control(name="class", required)
                         option(value=student.classId, style="color: red")= classStudyingStr
                         each oneclass in classes
                             option(value=oneclass.id)= oneclass.classname

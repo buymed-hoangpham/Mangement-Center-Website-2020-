@@ -129,14 +129,21 @@ module.exports.postCreate = async (req, res) => {
             type,
             teacherid: teacherId 
         };
+        if(teacher != "") {
+            let findTeacher = await Teacher.findById(teacherId);
+            if(findTeacher.classId == '') {
+                findTeacher.classId = classStudy.id;
+            }else {
+                findTeacher.classId += `,${classStudy.id}`;
+            }
+            await Teacher.findByIdAndUpdate(teacherId, { classId: findTeacher.classId });
+        }
         await Class.create(data);
         let classStudy = await Class.findOne({ classname: classname });
         await Teacher.findOneAndUpdate({ _id: teacherId },
             { classId: classStudy.id }
         );
-        await  Teacher.findOne({ classId: classStudy.id }) && Class.findOne({ id: classStudy.id })
-        ? successMessage = 'Tạo lớp mới thành công!'
-        : errorMessage = 'Tạo lớp mới thất bại!';
+        classStudy ? successMessage = 'Tạo lớp mới thành công!' : errorMessage = 'Tạo lớp mới thất bại!';
     } else {
         let data = {
             _id,
@@ -148,12 +155,14 @@ module.exports.postCreate = async (req, res) => {
         await Class.create(data);
         let classStudy = await Class.findOne({ classname: classname });
         let findTeacher = await Teacher.findById(teacherId);
-        if(findTeacher.classId == '') {
-            findTeacher.classId = classStudy.id;
-        }else {
-            findTeacher.classId += `,${classStudy.id}`;
+        if(teacher != "") {
+            if(findTeacher.classId == '') {
+                findTeacher.classId = classStudy.id;
+            }else {
+                findTeacher.classId += `,${classStudy.id}`;
+            }
+            await Teacher.findByIdAndUpdate(teacherId, { classId: findTeacher.classId });
         }
-        await Teacher.findByIdAndUpdate(teacherId, { classId: findTeacher.classId });
         for(var i = 0; i < arrOption.length; i++) {
             arrStudentId.push(arrOption[i].replace('Id: ', '').split(' - Tên: ').shift());
         }

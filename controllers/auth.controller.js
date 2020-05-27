@@ -53,7 +53,7 @@ module.exports.postLogin = async (req, res) => {
 
 module.exports.logout = (req, res) => {
     res.clearCookie('userId');
-    res.redirect('/auth/login');
+    res.render('./auth/login');
 };
 
 module.exports.reset = (req, res) => {

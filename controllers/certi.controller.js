@@ -2,34 +2,60 @@ const shortid = require('shortid');
 const moment = require('moment')
 const Class = require('../models/class.model');
 const Student = require('../models/student.model');
-const Certi = require('../models/certi.model');
+const CertiLanguage = require('../models/certiLanguage.model');
+const CertiIT = require('../models/certiIT.model');
 const PointIT = require('../models/pointIT.model');
 const PointLanguage = require('../models/pointLanguage.model');
 
+module.exports.selectType = (req, res) => {
+    res.render('./certi/selectType')
+}
+
 module.exports.render = async(req, res) => {
-    let certies = await Certi.find();
     let students = await Student.find();
     let currentPage = req.query.page ? parseInt(req.query.page) : 1;
     let perPage = 7;
-    let pageSize = Math.ceil(certies.length / perPage );
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
     let placeholderSearch = 'Search...';
 
-    res.render('./certi/index', {
-        certies: certies.slice(begin, end),
-        students,
-        count,
-        titleLink: 'certi',
-        pageSize,
-        currentPage,
-        placeholderSearch
-    })
+    if(req.params.type == "T") {
+        let certies = await CertiIT.find();
+        let pageSize = Math.ceil(certies.length / perPage );
+        res.render('./certi/index', {
+            certies: certies.slice(begin, end),
+            students,
+            count,
+            titleLink: 'certi',
+            pageSize,
+            currentPage,
+            placeholderSearch
+        })
+        return;
+    } else {
+        let certies = await CertiLanguage.find();
+        let pageSize = Math.ceil(certies.length / perPage );
+        res.render('./certi/index', {
+            certies: certies.slice(begin, end),
+            students,
+            count,
+            titleLink: 'certi',
+            pageSize,
+            currentPage,
+            placeholderSearch
+        })
+    }
 }
 
 module.exports.delete = async(req, res) => {
-    await Certi.findByIdAndRemove(req.params.id);
+    let certiIT = await CertiIT.findById(req.params.id);
+    if(certiIT) {
+        await CertiIT.findByIdAndRemove(req.params.id);
+        res.redirect('back');
+        return;
+    }
+    await CertiLanguage.findByIdAndRemove(req.params.id);
     res.redirect('back');
 };
 
@@ -74,12 +100,12 @@ module.exports.postCreate = async (req, res) => {
         let data = {
             _id,
             studentid: req.body.student, 
-            cefr: point.cefr,
+            result: point.cefr,
             type,
             classid: req.body.class
         }
 
-        let newCerti = await Certi.create(data);
+        let newCerti = await CertiLanguage.create(data);
         ! newCerti ? errorMessage = 'Tạo chứng chỉ mới thất bại!' : successMessage = 'Tạo chứng chỉ mới thành công!'
         res.render('./certi/create', {
             students,
@@ -99,7 +125,7 @@ module.exports.postCreate = async (req, res) => {
             })
             return;
         }
-        if(point.cefr == 'f') {
+        if(point.passed == false) {
             let errorMessage = 'Học viên không đạt điểm đậu! Không thể tạo chứng chỉ!'
             res.render('./certi/create', {
                 students,
@@ -111,12 +137,12 @@ module.exports.postCreate = async (req, res) => {
         let data = {
             _id,
             studentid: req.body.student, 
-            cefr: point.cefr,
+            result: "Đạt" ,
             type,
             classid: req.body.class
         }
 
-        let newCerti = await Certi.create(data);
+        let newCerti = await CertiIT.create(data);
         ! newCerti ? errorMessage = 'Tạo chứng chỉ mới thất bại!' : successMessage = 'Tạo chứng chỉ mới thành công!'
         res.render('./certi/create', {
             students,
@@ -129,9 +155,13 @@ module.exports.postCreate = async (req, res) => {
 }
 
 module.exports.view = async (req, res) => {
-    let certi = await Certi.findById(req.params.id);
+    let certi = await CertiLanguage.findById(req.params.id);
+    if(await CertiIT.findById(req.params.id)) {
+        certi = await CertiIT.findById(req.params.id)
+    }
     let student = await Student.findById(certi.studentid);
     let thisClass = await Class.findById(certi.classid);
+    
     if(certi.type == "T") {
         let point = await PointIT.findOne({ userid: certi.studentid, classid: certi.classid })
         res.render('./certi/view', {

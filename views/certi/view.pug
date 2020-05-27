@@ -8,13 +8,13 @@ block content
                     .form-group.col-7.form
                         .form-group
                             label(for="studentid") ID học viên:
-                            input.form-control(type="text", name="id", value= student.id)
+                            input.form-control(type="text", name="id", value= student.id, readonly)
                         .form-group
                             label(for="studentname") Họ tên học viên: 
-                            input.form-control#studentname(type="text", name="studentname", value= student.studentname)
+                            input.form-control#studentname(type="text", name="studentname", value= student.studentname, readonly)
                         .form-group
                             label(for='class') Học lớp: 
-                            input.form-control#class(type="text", name="class", value= thisClass.classname) 
+                            input.form-control#class(type="text", name="class", value= thisClass.classname, readonly) 
                     .form-group.col-5.form
                         .form-group.row
                             .col-3
@@ -24,16 +24,16 @@ block content
                     .form-group.col-6
                         label(for='gender') Giới tính:
                         if(student.gender == true)
-                            input#gender.form-control(type='text', name="gender", value="Nữ")
+                            input#gender.form-control(type='text', name="gender", value="Nữ", readonly)
                         else
-                            input#gender.form-control(type='text', name="gender", value="Nam") 
+                            input#gender.form-control(type='text', name="gender", value="Nam", readonly) 
                     .form-group.col-6
                         label(for='birthday') Ngày sinh:
-                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'))
+                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'), readonly)
                 .form-row
                     .form-group.col-12
                         label(for="address") Địa chỉ: 
-                        input.form-control#phone(name="address", type='text', value= student.address)
+                        input.form-control#phone(name="address", type='text', value= student.address, readonly)
                 .form-row
                     .col-12
                         label(for='class') 
@@ -41,20 +41,20 @@ block content
                     .form-group.col-12.form-row
                         .form-group.col-3
                             label(for='theory') Theory:
-                            input#theory.form-control(type='text', name="theory", value= point.theory)
+                            input#theory.form-control(type='text', name="theory", value= point.theory, readonly)
                         .form-group.col-3
                             label(for='practice') Practice:
-                            input#practice.form-control(type='text', name="practice", value= point.practice)
+                            input#practice.form-control(type='text', name="practice", value= point.practice, readonly)
                         .form-group.col-3
                             label(for='obs') OBS:
-                            input#obs.form-control(type='text', name="obs", value= point.obs)
+                            input#obs.form-control(type='text', name="obs", value= point.obs, readonly)
                         .form-group.col-3
-                            label(for='cefr') CEFR:
-                            input#cefr.form-control(type='text', name="cefr", value= point.cefr)
+                            label(for='result') Kết quả:
+                            input#result.form-control(type='text', name="result", value= "Đạt", readonly)
                 .form-row
                     .col-4
                     .col-4
-                        a.btn.btn-secondary.btn-lg.d-block(href="/certi") Quay lại
+                        a.btn.btn-secondary.btn-lg.d-block(href="/certi/T") Quay lại
         else
             h1 Chứng chỉ tiếng anh: 
             form.form.container-fluid(method="post", action="/certi/view")
@@ -62,13 +62,13 @@ block content
                     .form-group.col-7.form
                         .form-group
                             label(for="studentid") ID học viên:
-                            input.form-control(type="text", name="id", value= student.id)
+                            input.form-control(type="text", name="id", value= student.id, readonly)
                         .form-group
                             label(for="studentname") Họ tên học viên: 
-                            input.form-control#studentname(type="text", name="studentname", value= student.studentname)
+                            input.form-control#studentname(type="text", name="studentname", value= student.studentname, readonly)
                         .form-group
                             label(for='class') Học lớp: 
-                            input.form-control#class(type="text", name="class", value= thisClass.classname) 
+                            input.form-control#class(type="text", name="class", value= thisClass.classname, readonly) 
                     .form-group.col-5.form
                         .form-group.row
                             .col-3
@@ -78,16 +78,16 @@ block content
                     .form-group.col-6
                         label(for='gender') Giới tính:
                         if(student.gender == true)
-                            input#gender.form-control(type='text', name="gender", value="Nữ")
+                            input#gender.form-control(type='text', name="gender", value="Nữ", readonly)
                         else
-                            input#gender.form-control(type='text', name="gender", value="Nam") 
+                            input#gender.form-control(type='text', name="gender", value="Nam", readonly) 
                     .form-group.col-6
                         label(for='birthday') Ngày sinh:
-                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'))
+                        input#birthday.form-control(type='text', name="birthday", value= moment(student.birthday).format('DD-MM-YYYY'), readonly)
                 .form-row
                     .form-group.col-12
                         label(for="address") Địa chỉ: 
-                        input.form-control#phone(name="address", value= student.address)
+                        input.form-control#phone(name="address", value= student.address, readonly)
                 .form-row
                     .col-12
                         label(for='class') 
@@ -95,24 +95,24 @@ block content
                     .form-group.col-12.form-row
                         .form-group.col-2
                             label(for='listening') Listening:
-                            input#listening.form-control(type='text', name="listening", value= point.listening)
+                            input#listening.form-control(type='text', name="listening", value= point.listening, readonly)
                         .form-group.col-2
                             label(for='writing') Writing:
-                            input#writing.form-control(type='text', name="writing", value= point.writing)
+                            input#writing.form-control(type='text', name="writing", value= point.writing, readonly)
                         .form-group.col-2
                             label(for='reading') Reading:
-                            input#reading.form-control(type='text', name="reading", value= point.reading)
+                            input#reading.form-control(type='text', name="reading", value= point.reading, readonly)
                         .form-group.col-2
                             label(for='speaking') Speaking:
-                            input#speaking.form-control(type='text', name="speaking", value= point.speaking)
+                            input#speaking.form-control(type='text', name="speaking", value= point.speaking, readonly)
                         .form-group.col-2
                             label(for='obs') OBS:
-                            input#obs.form-control(type='text', name="obs", value= point.obs)
+                            input#obs.form-control(type='text', name="obs", value= point.obs, readonly)
                         .form-group.col-2
                             label(for='cefr') CEFR:
-                            input#cefr.form-control(type='text', name="cefr", value= point.cefr)
+                            input#cefr.form-control(type='text', name="cefr", value= point.cefr, readonly)
                 .form-row
                     .col-4
                     .col-4
-                        a.btn.btn-secondary.btn-lg.d-block(href="/certi") Quay lại
+                        a.btn.btn-secondary.btn-lg.d-block(href="/certi/L") Quay lại
 

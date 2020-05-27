@@ -60,12 +60,13 @@ module.exports.view = async(req, res) => {
     let teachersTeachingArr = [];
     let currentPage = req.query.page ? parseInt(req.query.page) : 1;
     let perPage = 7;
+    students = students.filter((student) => student.classId.indexOf(req.params.id) !== -1)
     let pageSize = Math.ceil(students.length / perPage );
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
     let placeholderSearch = 'Search...';
-
+    
     for(let teacher of teachers) {
         if(teacher.classId.indexOf(thisClass.id) != -1)
             teachersTeachingArr.push(teacher.teachername)

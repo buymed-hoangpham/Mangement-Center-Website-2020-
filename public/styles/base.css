@@ -79,6 +79,10 @@ td, th {
     display: none;
 }
 
+.title {
+    display: none;
+}
+
 @media print {
     .btn, .btn-lg, #sidebar-wrapper, .navbar, .label {
         display:none !important;
@@ -91,5 +95,11 @@ td, th {
     }
     #date-form {
         display: flex;
+    }
+    .title {
+        display: flex;
+    }
+    #billid {
+        display:none;
     }
 }

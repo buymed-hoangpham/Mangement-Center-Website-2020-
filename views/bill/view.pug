@@ -1,9 +1,21 @@
 extends ../layouts/common
 block content
     .container-fluid.bill-content
+        .row.title
+            .col-6
+                h2.text-center TRUNG TÂM TIN HỌC VÀ 
+                    br
+                    |   NGOẠI NGỮ UEF
+            .col-6
+                h2.text-center(style="text-transform: uppercase;") Cộng hòa xã hội chủ nghĩa
+                p.text-center
+                    b Độc lập - Tự do - Hạnh phúc
+        .row.title 
+            .col-12
+                h1.text-center BIÊN LAI
         .row.d-flex.align-items-center
             .col-4
-                h1 Biên lai: 
+                h1#billid Biên lai: 
                     span(style="color: blue") #{bill.id}
             .col-7.text-right
                 label.label(for="printbtn", style="font-size: 20px") In:
@@ -49,7 +61,7 @@ block content
                     label(style="font-style: italic;") Ngày ... tháng ... năm ...
             .form-row#signed
                 .form-group.col-6.text-right
-                    label Người học ký tên
+                    label Người nộp ký tên
                 .form-group.col-6.text-right
                     label Người lập ký tên
             .form-row(style="bottom: 10px; width: 100%")

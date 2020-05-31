@@ -14,13 +14,15 @@ module.exports.render = async(req, res) => {
     let begin = (currentPage - 1) * perPage;
     let end = currentPage * perPage;
     let count = begin;
+    let placeholderSearch = 'Search...'
     res.render('./bill/index', {
         bills: bills.slice(begin, end), 
         students,
         count,
         titleLink: 'bill',
         pageSize,
-        currentPage
+        currentPage,
+        placeholderSearch
     })
 }
 
@@ -109,5 +111,50 @@ module.exports.postCreate = async (req, res) => {
         successMessage,
         classes,
         students,
+    })
+}
+
+module.exports.search = async (req, res) => {
+    var q = req.query.q;
+    let bills = await Bill.find();
+    let students = await Student.find();
+    let currentPage = req.query.page ? parseInt(req.query.page) : 1;
+    let perPage = 7;
+    let pageSize = Math.ceil(bills.length / perPage );
+    let begin = (currentPage - 1) * perPage;
+    let end = currentPage * perPage;
+    let count = begin;
+    let placeholderSearch = q;
+    let matchedStudents = students.filter( student => {
+        return student.studentname.toLowerCase().indexOf(q.toLowerCase()) !== -1;
+    })
+    let idMatchedStudents = matchedStudents.map( student => {
+        return student.id;
+    })
+    let matchedBills = bills.filter( bill => {
+        return idMatchedStudents.indexOf(bill.studentid) !== -1;
+    })
+
+    if(!matchedBills.length) {
+        placeholderSearch = 'Không tìm thấy!';
+        res.render('./bill/index', {
+            bills: bills.slice(begin, end),
+            students,
+            count,
+            titleLink: 'bill',
+            pageSize,
+            currentPage,
+            placeholderSearch
+        })
+        return;
+    }
+    res.render('./bill/index', {
+        bills: matchedBills.slice(begin, end),
+        students,
+        count,
+        titleLink: 'bill',
+        pageSize,
+        currentPage,
+        placeholderSearch
     })
 }

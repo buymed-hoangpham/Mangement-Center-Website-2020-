@@ -23,6 +23,8 @@ module.exports.render = async(req, res) => {
     if(req.params.type == "T") {
         let certies = await CertiIT.find();
         let pageSize = Math.ceil(certies.length / perPage );
+        res.clearCookie('type');
+        res.cookie('type', 'T');
         res.render('./certi/index', {
             certies: certies.slice(begin, end),
             students,
@@ -36,6 +38,8 @@ module.exports.render = async(req, res) => {
     } else {
         let certies = await CertiLanguage.find();
         let pageSize = Math.ceil(certies.length / perPage );
+        res.clearCookie('type');
+        res.cookie('type', 'L');
         res.render('./certi/index', {
             certies: certies.slice(begin, end),
             students,
@@ -187,7 +191,7 @@ module.exports.view = async (req, res) => {
 
 module.exports.search = async (req, res) => {
     let q = req.query.q;
-    let certies = await Certi.find();
+    let certies = (req.cookies.type == "T") ? await CertiIT.find() : await CertiLanguage.find();
     let students = await Student.find();
     let currentPage = req.query.page ? parseInt(req.query.page) : 1;
     let perPage = 7;

@@ -2,8 +2,16 @@ extends ../layouts/common
 block content
     .container-fluid
         .row.d-flex.justify-content-between.align-items-center
-            .col-9.col-sm-9
+            .col-9.col-sm-9.d-flex.justify-content-between.align-items-center
                 h1 Danh sách biên lai
+                .search-container
+                    form.form(action='/bill/search', method='GET')
+                        .form-row.d-flex.justify-content-between.align-items-center
+                            .input.search-input
+                                input(class="form-control" type="text" placeholder=placeholderSearch aria-label="Search" name="q")
+                            .button
+                                button.btn(type='submit', style="border-radius: 5px; padding: 3px 20px; color: pink; font-size: 24px; border: 0px")
+                                    i.fal.fa-search
             .col-3.col-sm-3
                 a.d-block.mr-4.p-1.btn.btn-info.text-center(href="/bill/create", style="font-size: 20px") Tạo biên lai
         .row 

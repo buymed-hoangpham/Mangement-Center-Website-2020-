@@ -8,5 +8,6 @@ router.get('/view/:id', billController.view);
 router.post('/view', billController.postView);
 router.get('/create', billController.create);
 router.post('/create', billController.postCreate);
+router.get('/search', billController.search);
 
 module.exports = router;

@@ -53,6 +53,8 @@ module.exports.postLogin = async (req, res) => {
 
 module.exports.logout = (req, res) => {
     res.clearCookie('userId');
+    res.clearCookie('type');
+    res.clearCookie('thisClass');
     res.render('./auth/login');
 };
 
